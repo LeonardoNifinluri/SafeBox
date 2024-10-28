@@ -1,0 +1,13 @@
+Mengerjakan edit profile feature
+jadi setelah signup, user akan diarahkan ke form pelengkapan data (bersifat wajib)
+yang jadi masalah adalah ketika user memilih image.
+
+Ketika user memilih satu image lalu ingin diganti, maka image yang lama akan tetap tersimpan di firebase storage
+oleh karena itu, setelah user memilik image maka akan ada semacam alert untuk mengkonfirmasi apakah image tersebut yang akan digunakan untuk profileImage
+dengan fungsionalitas ini, user bisa membatalkan jika image yang dipilih tidak sesuai dan image yang dibatalkan tidak akan disimpan di firebase storage
+
+yang sudah selesai dilakukan :
+mengupload gambar ke firebase storage
+
+yang belum dilakukan :
+menyimpan data ke firebase realtime database

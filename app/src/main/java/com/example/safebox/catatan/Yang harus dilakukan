@@ -1,0 +1,4 @@
+Yang harus dilakukan :
+    1. Buat fitur auth (login dan register)
+    2. Jadi user akan langsung dihadapkan dengan page signin
+       Di bawah akan ada clickable text jika user belum memiliki akun

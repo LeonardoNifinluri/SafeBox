@@ -1,0 +1,10 @@
+Yang sudah dilakukan :
+1. (done)melengkapi fitur add specialization : dimana psychologist bisa hapus specialization
+2. (done)lengkapi fitur add experience dengan prinsip yang sama dengan specialization
+3. (done)tambahkan fitur dimana psychologist bisa menghapus experience yang ditambahkan
+
+Yang harus dilakukan :
+1. (done)Dari image yang di-pick user, simpan ke firebase storage dan dapatkan url-nya
+2. (done)Simpan url ke psychologist.imageURL
+3. (done)Simpan data keseluruhkan ke firebase realtime database
+

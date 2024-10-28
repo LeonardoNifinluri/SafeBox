@@ -1,0 +1,9 @@
+Yang sudah dilakukan :
+1. (done)Dari image yang di-pick user, simpan ke firebase storage dan dapatkan url-nya
+2. (done)Simpan url ke psychologist.imageURL
+3. (done)Simpan data psychologist keseluruhkan ke firebase realtime database
+
+Yang harus dilakukan :
+1. (done)Handle backstack (agar user tidak bisa kembali ke aktivitas sebelumnya jika sudah berhasil signup/signin)
+2. Handle jika user keluar dari aplikasi sebelum mengisi form pada fillprofile (patient/psychologist),
+   maka ketika mencoba untuk login, halaman yang muncul adalah halaman pengisian data

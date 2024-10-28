@@ -1,0 +1,14 @@
+Proses authorization dilakukan dengan cara :
+    ketika user signup, data langsung di simpan di realtime database (firebase)
+    ketika ingin signin, dilakukan fetching menggunakan uid dari proses login untuk mengetahui role user
+    ingat untuk mengatur uid sebagai primary key (firebase)
+
+fitur auth memiliki beberapa vulnerability:
+
+1. user biasa bisa signup sebagai psychologist
+   Bagaimana mengatasi ini?
+2. user biasa yang berhasil signup dengan psychologist bisa memalsukan data nama, work location, specializations, dan experiences
+   Bagaimana mengatasi ini?
+   Hal ini bisa diatasi dengan cara(sementara):
+    jika berhasil register, akan ada pop up (screen) yang menavigasi user untuk melengkapi data
+    jika 1 field data masih kosong, maka fungsionalitas (home page untuk psychologist) tidak akan muncul

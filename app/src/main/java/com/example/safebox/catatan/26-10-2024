@@ -1,0 +1,27 @@
+Yang dilakukan hari ini :
+menambahkan fitur dimana psychologist mengisi hari-hari yang available
+menambahkan fitur add specialization pada untuk psychologist
+
+yang harus dilakukan selanjutnya :
+1. (done)melengkapi fitur add specialization : dimana psychologist bisa hapus specialization
+2. (done)lengkapi fitur add experience dengan prinsip yang sama dengan specialization
+3. (done)tambahkan fitur dimana psychologist bisa menghapus experience yang ditambahkan
+
+yang dipelajari hari ini :
+tipe list SnapStateList bisa langsung di-update tanpa melakukan copy (kasus pada psychologist specialization)
+contoh :
+    fun onAddSpecialization(){
+            _showSpecializationDialog.value = true
+            val currentSpecialization = _psychologistData.value.specializations
+            currentSpecialization.add(Specialization())
+            //I don't have to do this since i'm working with SnapshotStateList
+            //_psychologistData.value = _psychologistData.value.copy(specializations = currentSpecialization)
+    }
+
+bagaimana pattern state pada view model (pemisahan antara mutable dan immutable)
+contoh :
+    private val _psychologistData = mutableStateOf(Psychologist())
+    val psychologistData: State<Psychologist> = _psychologistData
+
+    private val _imageUri = mutableStateOf<Uri?>(value = null)
+    val imageUri: State<Uri?> = _imageUri

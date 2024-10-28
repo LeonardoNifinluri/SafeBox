@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "137928589282",
+    "project_id": "safebox-3bada",
+    "storage_bucket": "safebox-3bada.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:137928589282:android:50c18001058924238383bb",
+        "android_client_info": {
+          "package_name": "com.example.safebox"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "137928589282-tuo4gb0rgv3sasoi4cg6kmemolq3o8kj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCiTVOKQPOoP5MD3Gp7vqBUyTMWawxZdMI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "137928589282-tuo4gb0rgv3sasoi4cg6kmemolq3o8kj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
