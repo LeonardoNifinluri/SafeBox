@@ -6,13 +6,10 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.safebox.features.auth.data.repository.AuthRepository
-import com.example.safebox.features.auth.domain.model.Role
 import com.example.safebox.features.auth.domain.model.SignInData
 import com.google.firebase.auth.AuthResult
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class SignInViewModel: ViewModel() {
 

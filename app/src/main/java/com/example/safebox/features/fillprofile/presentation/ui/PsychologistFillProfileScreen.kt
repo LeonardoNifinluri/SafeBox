@@ -506,7 +506,14 @@ fun PsychologistFillProfileScreen(navController: NavController, userId: String, 
                                 Log.d("OnConfirmSubmit-FillProfileScreen", "success")
                                 navController.navigate(route = "PsychologistHomeScreen/$userId")
                             }
-                        }
+                        },
+                        enabled = psychologistData.value.name.isNotEmpty() &&
+                                psychologistData.value.workLocation.isNotEmpty() &&
+                                psychologistData.value.phoneNumber.isNotEmpty() &&
+                                psychologistData.value.availability.contains(true) &&
+                                psychologistData.value.specializations.isNotEmpty() &&
+                                psychologistData.value.experiences.isNotEmpty() &&
+                                viewModel.imageUri.value != null
                     ) {
                         Text(text = "Confirm")
                     }

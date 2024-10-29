@@ -8,8 +8,7 @@ import kotlinx.coroutines.tasks.await
 
 class FirebaseRepository: DataRepository {
 
-    private val url = "https://safebox-3bada-default-rtdb.asia-southeast1.firebasedatabase.app/"
-    private val database = FirebaseDatabase.getInstance(url).reference
+    private val database = FirebaseDatabase.getInstance().reference
 
     override suspend fun savePatientData(
         userId: String,
@@ -17,14 +16,13 @@ class FirebaseRepository: DataRepository {
     ): Boolean {
         return try{
             database.child("user")
-                .child("patient")
                 .child(userId)
                 .setValue(patientData)
                 .await()
             Log.d("SaveDataStatus", "Success")
             true
         }catch(e: Exception){
-            Log.d("SaveDataStatus", "Fail")
+            Log.d("SaveDataStatus", "Fail with error : ${e.message}")
             false
         }
     }
@@ -35,7 +33,6 @@ class FirebaseRepository: DataRepository {
     ): Boolean {
         return try{
             database.child("user")
-                .child("psychologist")
                 .child(userId)
                 .setValue(psychologistData)
                 .await()

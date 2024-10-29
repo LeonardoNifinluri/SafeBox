@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "137928589282",
+    "firebase_url": "https://safebox-3bada-default-rtdb.asia-southeast1.firebasedatabase.app",
     "project_id": "safebox-3bada",
     "storage_bucket": "safebox-3bada.appspot.com"
   },
@@ -13,6 +14,14 @@
         }
       },
       "oauth_client": [
+        {
+          "client_id": "137928589282-1seroo2m7r5emjjcf65mgn1hf2aq0ppo.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.safebox",
+            "certificate_hash": "af3fa60d3c327c260e746219bed442486a5e111e"
+          }
+        },
         {
           "client_id": "137928589282-tuo4gb0rgv3sasoi4cg6kmemolq3o8kj.apps.googleusercontent.com",
           "client_type": 3

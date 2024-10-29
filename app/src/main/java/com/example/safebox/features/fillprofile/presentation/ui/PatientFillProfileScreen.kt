@@ -213,7 +213,13 @@ fun PatientEditProfileScreen(navController: NavController, userId: String, email
                 },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(10.dp)
+                    .padding(10.dp),
+                enabled = patientData.name.isNotBlank() &&
+                        patientData.birthdate.isNotBlank() &&
+                        patientData.address.isNotBlank() &&
+                        patientData.phoneNumber.isNotBlank() &&
+                        patientData.gender != Gender.NOT_SET &&
+                        viewModel.imageUri != null
             ) {
                 Text(text = "Confirm")
             }
