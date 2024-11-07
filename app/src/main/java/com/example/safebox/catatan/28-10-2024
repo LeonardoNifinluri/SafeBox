@@ -5,5 +5,14 @@ Yang sudah dilakukan :
 
 Yang harus dilakukan :
 1. (done)Handle backstack (agar user tidak bisa kembali ke aktivitas sebelumnya jika sudah berhasil signup/signin)
-2. Handle jika user keluar dari aplikasi sebelum mengisi form pada fillprofile (patient/psychologist),
-   maka ketika mencoba untuk login, halaman yang muncul adalah halaman pengisian data
+2. (done)Handle jika user keluar dari aplikasi sebelum mengisi form pada fillprofile (patient/psychologist),
+   maka ketika mencoba untuk login, halaman yang muncul adalah halaman pengisian data : ini tidak jadi,
+   jika user ternyata tidak melakukan pengisian data, user tetap bisa mengisi dapat pada fitur edit profile
+3. (done)jika user tidak melakukan pengisian data dan keluar dari aplikasi, maka user dikenali sebagai Unknown User dan
+   akan diarahkan ke unknown screen
+
+Yang harus dilakukan selanjutnya :
+1. (done)Membuat state isLoading untuk setiap aktivitas (auth dan fill profile)
+2. Melengkapi Ui dengan style yang ditentukan
+
+Anomali : image uri pada patient view model bisa di-reset tapi gambar lama tetap ada 

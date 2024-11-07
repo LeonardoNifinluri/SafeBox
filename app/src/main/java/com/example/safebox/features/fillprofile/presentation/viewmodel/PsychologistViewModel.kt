@@ -44,6 +44,9 @@ class PsychologistViewModel(
     private val _saveSuccess = mutableStateOf(value = false)
 //    val saveSuccess: State<Boolean> = _saveSuccess
 
+    private val _isLoading = mutableStateOf(value = false)
+    val isLoading: State<Boolean> = _isLoading
+
 
     //this is to handle name when changing
     fun onNameChange(newName: String){
@@ -243,6 +246,7 @@ class PsychologistViewModel(
     }
 
     fun onConfirmSubmit(onSaveSuccess: () -> Unit){
+        _isLoading.value = true
         viewModelScope.launch{
             try{
                 val url = uploadImageUseCase(imageUri.value!!)
@@ -269,6 +273,12 @@ class PsychologistViewModel(
                     }
                 }catch (e: Exception){
                     Log.d("SaveStatus-confirmSubmit", "error : ${e.message}")
+                }finally {
+                    //reset all the states
+                    _isLoading.value = false
+                    _psychologistData.value = Psychologist()
+                    _imageUri.value = null
+                    _imageUrl.value = ""
                 }
             }
         }

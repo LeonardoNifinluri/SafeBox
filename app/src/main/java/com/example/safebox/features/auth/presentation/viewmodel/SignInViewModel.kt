@@ -1,50 +1,67 @@
 package com.example.safebox.features.auth.presentation.viewmodel
 
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.safebox.features.auth.data.repository.AuthRepository
+import com.example.safebox.features.auth.domain.model.Role
 import com.example.safebox.features.auth.domain.model.SignInData
+import com.example.safebox.features.fillprofile.data.repository.FirebaseRepository
+import com.example.safebox.features.fillprofile.domain.usecase.GetUserRoleUseCase
 import com.google.firebase.auth.AuthResult
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class SignInViewModel: ViewModel() {
 
-    private val authRepository = AuthRepository()
-    var signInData by mutableStateOf(SignInData())
-        private set
-    var isLoading by mutableStateOf(false)
-        private set
+    private val getUserRoleUseCase = GetUserRoleUseCase(FirebaseRepository())
 
-    var result by mutableStateOf<AuthResult?>(value = null)
-        private set
+    private val authRepository = AuthRepository()
+
+    private val _signInData = mutableStateOf(SignInData())
+    val signInData: State<SignInData> = _signInData
+
+    private val _isLoading = mutableStateOf(value = false)
+    val isLoading: State<Boolean> = _isLoading
+
+    private val _result = mutableStateOf<AuthResult?>(value = null)
+    val result: State<AuthResult?> = _result
+
+    private val _role = MutableLiveData<Role>()
+    val role: LiveData<Role> get() = _role
+
+    private val _message = mutableStateOf<String?>(value = null)
+    val message: State<String?> = _message
 
     fun onEmailChange(newEmail: String){
-        signInData = signInData.copy(email = newEmail)
+        _signInData.value = _signInData.value.copy(email = newEmail)
     }
 
     fun onPasswordChange(newPass: String){
-        signInData = signInData.copy(password = newPass)
+        _signInData.value = _signInData.value.copy(password = newPass)
     }
 
     fun onSubmit(onSignInSuccess: () -> Unit){
-        isLoading = true
+        _isLoading.value = true
         viewModelScope.launch{
             try{
-                result = authRepository.signIn(signInData)
-                if(result != null){
+                _result.value = authRepository.signIn(_signInData.value)
+                if(_result.value != null){
+                    val userId = result.value?.user?.uid ?: ""
+                    _role.value = getUserRoleUseCase(userId = userId)
                     onSignInSuccess()
+                }else{
+                    _message.value = "Error when SignIn"
                 }
             }finally {
-                isLoading = false
+                _isLoading.value = false
                 delay(timeMillis = 3000)
+                _message.value = null
             }
         }
     }
-
-    //this is temporary
 
 }

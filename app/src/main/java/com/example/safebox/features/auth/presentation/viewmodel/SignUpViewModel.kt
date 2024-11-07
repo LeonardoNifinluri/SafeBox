@@ -1,8 +1,7 @@
 package com.example.safebox.features.auth.presentation.viewmodel
 
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.safebox.features.auth.data.repository.AuthRepository
@@ -15,37 +14,45 @@ import kotlinx.coroutines.launch
 class SignUpViewModel: ViewModel() {
 
     private val authRepository = AuthRepository()
-    var signUpData by mutableStateOf(SignUpData())
-        private set
-    var isLoading by mutableStateOf(false)
-        private set
 
-    var result by mutableStateOf<AuthResult?>(value = null)
-        private set
+    private val _signUpData = mutableStateOf(value = SignUpData())
+    val signUpData: State<SignUpData> = _signUpData
+
+    private val _isLoading = mutableStateOf(value = false)
+    val isLoading: State<Boolean> = _isLoading
+
+    private val _result = mutableStateOf<AuthResult?>(value = null)
+    val result: State<AuthResult?> = _result
+
+    private val _message = mutableStateOf<String?>(value = null)
+    val message: State<String?> = _message
 
     fun onEmailChange(newEmail: String){
-        signUpData = signUpData.copy(email = newEmail)
+        _signUpData.value = _signUpData.value.copy(email = newEmail)
     }
 
     fun onPasswordChange(newPassword: String){
-        signUpData = signUpData.copy(password = newPassword)
+        _signUpData.value = _signUpData.value.copy(password = newPassword)
     }
 
     fun onRoleChange(newRole: Role){
-        signUpData = signUpData.copy(role = newRole)
+        _signUpData.value = _signUpData.value.copy(role = newRole)
     }
 
     fun onSubmit(onSignUpSuccess: () -> Unit){
-        isLoading = true
+        _isLoading.value = true
         viewModelScope.launch {
             try{
-                result = authRepository.signUp(signUpData)
-                if(result != null){
+                _result.value = authRepository.signUp(_signUpData.value)
+                if(_result.value != null){
                     onSignUpSuccess()
+                }else{
+                    _message.value = "Error when SignUp"
                 }
             }finally{
-                isLoading = false
+                _isLoading.value = false
                 delay(timeMillis = 3000)
+                _message.value = null
             }
         }
     }

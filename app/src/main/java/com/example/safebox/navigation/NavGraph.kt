@@ -9,8 +9,8 @@ import androidx.navigation.navArgument
 import com.example.safebox.features.auth.presentation.ui.SignInScreen
 import com.example.safebox.features.auth.presentation.ui.SignUpScreen
 import com.example.safebox.features.fillprofile.presentation.ui.FillProfileScreen
-import com.example.safebox.features.fillprofile.presentation.ui.PatientHomeScreen
-import com.example.safebox.features.fillprofile.presentation.ui.PsychologistHomeScreen
+import com.example.safebox.features.fillprofile.presentation.ui.HomeScreen
+
 
 @Composable
 fun NavGraph() {
@@ -47,23 +47,42 @@ fun NavGraph() {
         }
 
         composable(
-            route = "PatientHomeScreen/{userId}",
+            route = "HomeScreen/{userRole}/{userId}",
             arguments = listOf(
-                navArgument(name = "userId"){ type = NavType.StringType }
+                navArgument(name = "userRole"){ type = NavType.StringType},
+                navArgument(name = "userId"){ type = NavType.StringType}
             )
         ){ backStackEntry ->
+            val userRole = backStackEntry.arguments?.getString("userRole")
             val userId = backStackEntry.arguments?.getString("userId")
-            PatientHomeScreen(userId = userId!!)
+            HomeScreen(
+                userId = userId!!,
+                userRole = userRole!!
+            )
         }
 
-        composable(
-            route = "PsychologistHomeScreen/{userId}",
-            arguments = listOf(
-                navArgument(name = "userId"){ type = NavType.StringType }
-            )
-        ){ backStackEntry ->
-            val userId = backStackEntry.arguments?.getString("userId")
-            PsychologistHomeScreen(userId = userId!!)
-        }
+//        composable(
+//            route = "PatientHomeScreen/{userId}",
+//            arguments = listOf(
+//                navArgument(name = "userId"){ type = NavType.StringType }
+//            )
+//        ){ backStackEntry ->
+//            val userId = backStackEntry.arguments?.getString("userId")
+//            PatientHomeScreen(userId = userId!!)
+//        }
+//
+//        composable(
+//            route = "PsychologistHomeScreen/{userId}",
+//            arguments = listOf(
+//                navArgument(name = "userId"){ type = NavType.StringType }
+//            )
+//        ){ backStackEntry ->
+//            val userId = backStackEntry.arguments?.getString("userId")
+//            PsychologistHomeScreen(userId = userId!!)
+//        }
+//
+//        composable(route = "UnknownUserScreen"){
+//            UnknownUserScreen(navController)
+//        }
     }
 }

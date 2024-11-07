@@ -1,6 +1,7 @@
 package com.example.safebox.features.fillprofile.data.repository
 
 import android.util.Log
+import com.example.safebox.features.auth.domain.model.Role
 import com.example.safebox.features.fillprofile.domain.model.patient.Patient
 import com.example.safebox.features.fillprofile.domain.model.psychologist.Psychologist
 import com.google.firebase.database.FirebaseDatabase
@@ -41,6 +42,21 @@ class FirebaseRepository: DataRepository {
         }catch (e: Exception){
             Log.d("SavaPsychologistStatus", "Fail")
             false
+        }
+    }
+
+    override suspend fun getUserRole(userId: String): Role {
+        return try {
+            val snapshot = database.child("user").child(userId).get().await()
+            if (snapshot.exists()) {
+                val role = snapshot.child("role").value
+                Role.valueOf(role.toString())
+            } else {
+                Role.UNKNOWN
+            }
+        } catch (e: Exception) {
+            Log.d("GetUserRole", "error to get user role")
+            Role.UNKNOWN
         }
     }
 

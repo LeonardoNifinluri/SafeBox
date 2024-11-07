@@ -2,9 +2,8 @@ package com.example.safebox.features.fillprofile.presentation.viewmodel
 
 import android.net.Uri
 import android.util.Log
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -22,41 +21,46 @@ class PatientViewModel(
     private val savePatientDataUseCase: SavePatientDataUseCase
 ): ViewModel() {
 
-    var patientData by mutableStateOf(Patient())
-        private set
+    private val _patientData = mutableStateOf(value = Patient())
+    val patientData: State<Patient> = _patientData
 
     //this is to get the Url
     private val _imageUrl = MutableLiveData<String>()
     private val imageUrl: LiveData<String> get() = _imageUrl
-    var imageUri by mutableStateOf<Uri?>(value = null)
+
+    private val _imageUri = mutableStateOf<Uri?>(value = null)
+    val imageUri: State<Uri?> = _imageUri
 
     //this is to get result when saving data
     private val _saveSuccess = MutableLiveData<Boolean>()
 
+    private val _isLoading = mutableStateOf(value = false)
+    val isLoading: State<Boolean> = _isLoading
+
     fun onNameChange(newName: String){
-        patientData = patientData.copy(name = newName)
+        _patientData.value = _patientData.value.copy(name = newName)
     }
 
     fun onBirthdateChange(newBirthdate: String){
-        patientData = patientData.copy(birthdate = newBirthdate)
+        _patientData.value = _patientData.value.copy(birthdate = newBirthdate)
     }
 
     fun onGenderChange(newGender: Gender){
-        patientData = patientData.copy(gender = newGender)
+        _patientData.value = _patientData.value.copy(gender = newGender)
     }
 
     fun onAddressChange(newAddress: String){
-        patientData = patientData.copy(address = newAddress)
+        _patientData.value = _patientData.value.copy(address = newAddress)
     }
 
     fun onPhoneChange(newPhone: String){
-        patientData = patientData.copy(phoneNumber = newPhone)
+        _patientData.value = _patientData.value.copy(phoneNumber = newPhone)
     }
 
     //this is will store image everytime user pick image (security concern)
     //this newImage is an url from firebase storage
     fun onProfileImageChange(newImageUri: Uri){
-        imageUri = newImageUri
+        _imageUri.value = newImageUri
     }
 
     //need a function to handle the medical record of user(later)
@@ -65,26 +69,27 @@ class PatientViewModel(
     fun onConfirmSubmit(onSaveSuccess: () -> Unit){
         //must get user confirmation first
         //after get userConfirmation, save the data to firebase realtime database
+        _isLoading.value = true
         viewModelScope.launch {
             try{
-                val url = uploadImageUseCase(imageUri!!)
+                val url = uploadImageUseCase(imageUri.value!!)
                 _imageUrl.value = url
                 Log.d("Upload Image", "Success")
             }catch (e: Exception){
                 Log.d("Upload Image", "Error when upload image")
             }finally {
-                patientData = patientData.copy(profileImageURL = imageUrl.value!!)
-                patientData = patientData.copy(email = email)
+                _patientData.value = _patientData.value.copy(profileImageURL = imageUrl.value!!)
+                _patientData.value = _patientData.value.copy(email = email)
                 try{
                     _saveSuccess.value = savePatientDataUseCase(
                         userId = userId,
-                        patientData = patientData
+                        patientData = patientData.value
                     )
                     Log.d("SavingDataStatus", "Success")
 
                     Log.d(
                         "PatientData",
-                        patientData.phoneNumber + patientData.name
+                        patientData.value.phoneNumber + patientData.value.name
                     )
 
                     //navigate to patient home
@@ -94,6 +99,12 @@ class PatientViewModel(
 
                 }catch (e: Exception){
                     Log.d("Save Status", "Error : ${e.message}")
+                }finally {
+                    //reset all the states
+                    _isLoading.value = false
+                    _patientData.value = Patient()
+                    _imageUrl.value = ""
+                    _imageUri.value = null
                 }
             }
         }

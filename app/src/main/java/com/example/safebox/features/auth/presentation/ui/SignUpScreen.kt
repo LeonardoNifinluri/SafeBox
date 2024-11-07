@@ -22,6 +22,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -38,7 +39,7 @@ import com.example.safebox.R
 fun SignUpScreen(navHostController: NavHostController) {
 
     val viewModel: SignUpViewModel = viewModel()
-    val signUpData = viewModel.signUpData
+    val signUpData = viewModel.signUpData.value
 
     Box(
         modifier = Modifier.fillMaxSize()
@@ -144,7 +145,7 @@ fun SignUpScreen(navHostController: NavHostController) {
                     //this is will be the register method in the view model
                     viewModel.onSubmit{
                         try{
-                            val userId = viewModel.result?.user?.uid ?: ""
+                            val userId = viewModel.result.value?.user?.uid ?: ""
 
                             //make sure when user press back after success signup, the app closes
                             navHostController.navigate(route = "FillProfileScreen/$userId/${signUpData.role.name}/${signUpData.email}"){
@@ -160,9 +161,16 @@ fun SignUpScreen(navHostController: NavHostController) {
 
                 },
                 modifier = Modifier.fillMaxWidth().padding(10.dp),
-                enabled = signUpData.email.isNotBlank() && signUpData.password.isNotBlank() && signUpData.role != Role.UNKNOWN && !viewModel.isLoading
+                enabled = signUpData.email.isNotBlank() && signUpData.password.isNotBlank() && signUpData.role != Role.UNKNOWN && !viewModel.isLoading.value
             ){
-                Text(text = if(viewModel.isLoading) "Signing Up..." else "Sign Up")
+                Text(text = if(viewModel.isLoading.value) "Signing Up..." else "Sign Up")
+            }
+
+            (if(viewModel.message.value != null) viewModel.message.value else "")?.let {
+                Text(
+                    text = it,
+                    color = Color.Red
+                )
             }
 
         }

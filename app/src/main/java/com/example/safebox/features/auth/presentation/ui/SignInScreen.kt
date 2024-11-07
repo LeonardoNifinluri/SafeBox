@@ -1,11 +1,16 @@
 package com.example.safebox.features.auth.presentation.ui
 
 import android.util.Log
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -16,10 +21,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -27,12 +34,11 @@ import androidx.navigation.NavController
 import com.example.safebox.R
 import com.example.safebox.features.auth.presentation.viewmodel.SignInViewModel
 
-
 @Composable
 fun SignInScreen(navController: NavController) {
 
     val viewModel: SignInViewModel = viewModel()
-    val signInData = viewModel.signInData
+    val signInData = viewModel.signInData.value
 
     Box(
         modifier = Modifier.fillMaxSize()
@@ -91,26 +97,62 @@ fun SignInScreen(navController: NavController) {
                     //Log.d("Button Pressed", "${signUpData.email}, ${signUpData.password}, ${signUpData.role.name}, ")
                     //this is will be the register method in the view model
                     viewModel.onSubmit{
-                        //fetch data using user id
-                        val userId = viewModel.result?.user?.uid ?: ""
                         //if role == PATIENT to patient activity else to psychologist activity
-                        Log.d("SignIn Status", "Success")
+                        //we have to get the role
+                        val userId = viewModel.result.value?.user?.uid ?: ""
+                        Log.d(
+                            "SignIn Status",
+                            "Success"
+                        )
+//                        val route = when (viewModel.role.value) {
+//                            Role.PATIENT -> {
+//                                "PatientHomeScreen/$userId"
+//                            }
+//                            Role.PSYCHOLOGIST -> {
+//                                "PsychologistHomeScreen/$userId"
+//                            }
+//                            else -> {
+//                                "UnknownUserScreen"
+//                            }
+//                        }
+                        val route = "HomeScreen/${viewModel.role.value.toString()}/$userId"
+                        navController.navigate(route = route){
+                            popUpTo(route = "SignInScreen")
+                        }
+                        Log.d(
+                            "Authorization",
+                            "$userId : ${viewModel.role.value.toString()}"
+                        )
                     }
 
                 },
                 modifier = Modifier.fillMaxWidth().padding(10.dp),
-                enabled = signInData.email.isNotBlank() && signInData.password.isNotBlank() && !viewModel.isLoading
+                enabled = signInData.email.isNotBlank() && signInData.password.isNotBlank() && !viewModel.isLoading.value
             ){
-                Text(text = if(viewModel.isLoading) "Signing In..." else "Sign Ip")
+                Text(text = if(viewModel.isLoading.value) "Signing In..." else "Sign In")
             }
 
-            Button(
-                onClick = {
-                    navController.navigate(route = "SignUpScreen")
-                },
-                modifier = Modifier.fillMaxWidth().padding(10.dp),
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically
             ){
-                Text(text = "Sign Up")
+                Text(text = "Do not have an account?")
+                Spacer(modifier = Modifier.width(10.dp))
+                Text(
+                    text = "SingUp here",
+                    textDecoration = TextDecoration.Underline,
+                    modifier = Modifier.clickable {
+                        navController.navigate(route = "SignUpScreen")
+                    }
+                )
+            }
+
+            (if(viewModel.message.value != null) viewModel.message.value else "")?.let {
+                Text(
+                    text = it,
+                    color = Color.Red
+                )
             }
 
         }

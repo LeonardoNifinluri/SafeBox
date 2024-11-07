@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.OutlinedTextField
@@ -27,12 +28,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
+import com.example.safebox.features.auth.domain.model.Role
 import com.example.safebox.features.fillprofile.data.repository.FirebaseImageRepository
 import com.example.safebox.features.fillprofile.data.repository.FirebaseRepository
 import com.example.safebox.features.fillprofile.domain.model.patient.Gender
@@ -56,7 +59,7 @@ fun PatientEditProfileScreen(navController: NavController, userId: String, email
     val context = LocalContext.current
 
     val viewModel: PatientViewModel = ViewModelProvider(context as ComponentActivity, factory)[PatientViewModel::class.java]
-    val patientData = viewModel.patientData
+    val patientData = viewModel.patientData.value
 
 
     val launcher = rememberLauncherForActivityResult(
@@ -64,7 +67,10 @@ fun PatientEditProfileScreen(navController: NavController, userId: String, email
     ) {uri: Uri? ->
         uri?.let{
             viewModel.onProfileImageChange(it)
-            viewModel.imageUri = it
+            Log.d(
+                "ImageChanges",
+                "Yes"
+            )
         }
     }
 
@@ -123,7 +129,10 @@ fun PatientEditProfileScreen(navController: NavController, userId: String, email
                 },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(10.dp)
+                    .padding(10.dp),
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Number
+                )
             )
 
 
@@ -185,9 +194,9 @@ fun PatientEditProfileScreen(navController: NavController, userId: String, email
                 Text(text = "Pick Image")
             }
 
-            if(viewModel.imageUri != null){
+            if(viewModel.imageUri.value != null){
                 AsyncImage(
-                    model = viewModel.imageUri,
+                    model = viewModel.imageUri.value,
                     contentDescription = null,
                     modifier = Modifier
                         .padding(10.dp)
@@ -205,7 +214,11 @@ fun PatientEditProfileScreen(navController: NavController, userId: String, email
                         viewModel.onConfirmSubmit{
                             Log.d("SaveSuccess", "Navigate to patient home")
                             //make sure if the user press back button, the app closes
-                            navController.navigate(route = "PatientHomeScreen/$userId")
+                            navController.navigate(route = "HomeScreen/${Role.PATIENT.name}/$userId"){
+                                popUpTo(route = "FillProfileScreen/$userId/${Role.PATIENT.name}/$email"){
+                                    inclusive = true
+                                }
+                            }
                         }
                     }catch(e: Exception){
                         Log.d("Exception When Upload", e.message!!)
@@ -219,9 +232,10 @@ fun PatientEditProfileScreen(navController: NavController, userId: String, email
                         patientData.address.isNotBlank() &&
                         patientData.phoneNumber.isNotBlank() &&
                         patientData.gender != Gender.NOT_SET &&
-                        viewModel.imageUri != null
+                        viewModel.imageUri.value != null &&
+                        !viewModel.isLoading.value
             ) {
-                Text(text = "Confirm")
+                Text(text = if(viewModel.isLoading.value) "Confirming..." else "Confirm")
             }
 
         }

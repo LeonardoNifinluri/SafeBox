@@ -35,6 +35,7 @@ import androidx.compose.ui.window.Dialog
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
+import com.example.safebox.features.auth.domain.model.Role
 import com.example.safebox.features.fillprofile.data.repository.FirebaseImageRepository
 import com.example.safebox.features.fillprofile.data.repository.FirebaseRepository
 import com.example.safebox.features.fillprofile.domain.usecase.SavePsychologistDataUseCase
@@ -61,6 +62,9 @@ fun PsychologistFillProfileScreen(navController: NavController, userId: String, 
     val viewModel: PsychologistViewModel = ViewModelProvider(context as ComponentActivity, factory)[PsychologistViewModel::class.java]
 
     val psychologistData = viewModel.psychologistData
+
+    var specializationTextFieldNotBlank = emptyList<Boolean>().toMutableList()
+    var experienceTextFieldNotBlank = emptyList<Boolean>().toMutableList()
 
     //this is to pick image from gallery
     val launcher = rememberLauncherForActivityResult(
@@ -182,6 +186,7 @@ fun PsychologistFillProfileScreen(navController: NavController, userId: String, 
                                         //this is will add the specialization when user click
                                         //this is dynamic
                                         viewModel.onAddSpecialization()
+                                        specializationTextFieldNotBlank = mutableListOf(false, false)
                                     }
                                 ) {
                                     Text(text = "Add")
@@ -206,7 +211,10 @@ fun PsychologistFillProfileScreen(navController: NavController, userId: String, 
                                                     .specializations
                                                     .last()
                                                     .field,
-                                                onValueChange = { viewModel.onFieldChange(it) },
+                                                onValueChange = {
+                                                    viewModel.onFieldChange(it)
+                                                    specializationTextFieldNotBlank[0] = it.isNotBlank()
+                                                },
                                                 label = {
                                                     Text(text = "Field")
                                                 },
@@ -219,7 +227,10 @@ fun PsychologistFillProfileScreen(navController: NavController, userId: String, 
                                                     .specializations
                                                     .last()
                                                     .description,
-                                                onValueChange = { viewModel.onDescriptionChange(it) },
+                                                onValueChange = {
+                                                    viewModel.onDescriptionChange(it)
+                                                    specializationTextFieldNotBlank[1] = it.isNotBlank()
+                                                },
                                                 label = {
                                                     Text(text = "Description")
                                                 },
@@ -233,6 +244,7 @@ fun PsychologistFillProfileScreen(navController: NavController, userId: String, 
                                                 Button(
                                                     onClick = {
                                                         viewModel.onCancelSpecialization()
+                                                        specializationTextFieldNotBlank = emptyList<Boolean>().toMutableList()
                                                     }
                                                 ) {
                                                     Text(text = "Cancel")
@@ -241,7 +253,8 @@ fun PsychologistFillProfileScreen(navController: NavController, userId: String, 
                                                 Button(
                                                     onClick = {
                                                         viewModel.onSaveSpecialization()
-                                                    }
+                                                    },
+                                                    enabled = !specializationTextFieldNotBlank.contains(false)
                                                 ) {
                                                     Text(text = "Save")
                                                 }
@@ -303,6 +316,7 @@ fun PsychologistFillProfileScreen(navController: NavController, userId: String, 
                                         //this is will add the specialization when user click
                                         //this is dynamic
                                         viewModel.onAddExperience()
+                                        experienceTextFieldNotBlank = List(size = 6){false}.toMutableList()
                                     }
                                 ) {
                                     Text(text = "Add")
@@ -329,7 +343,10 @@ fun PsychologistFillProfileScreen(navController: NavController, userId: String, 
                                                     .last()
                                                     .years
                                                     .toString(),
-                                                onValueChange = { viewModel.onExpDataChange(attribute = "Years", data = it) },
+                                                onValueChange = {
+                                                    viewModel.onExpDataChange(attribute = "Years", data = it)
+                                                    experienceTextFieldNotBlank[0] = it.isNotBlank()
+                                                },
                                                 label = {
                                                     Text(text = "Years")
                                                 },
@@ -347,7 +364,10 @@ fun PsychologistFillProfileScreen(navController: NavController, userId: String, 
                                                     .experiences
                                                     .last()
                                                     .institution,
-                                                onValueChange = { viewModel.onExpDataChange(attribute = "Institution", data = it) },
+                                                onValueChange = {
+                                                    viewModel.onExpDataChange(attribute = "Institution", data = it)
+                                                    experienceTextFieldNotBlank[1] = it.isNotBlank()
+                                                },
                                                 label = {
                                                     Text(text = "Institution")
                                                 },
@@ -360,7 +380,10 @@ fun PsychologistFillProfileScreen(navController: NavController, userId: String, 
                                                     .experiences
                                                     .last()
                                                     .role,
-                                                onValueChange = { viewModel.onExpDataChange(attribute = "Role", data = it) },
+                                                onValueChange = {
+                                                    viewModel.onExpDataChange(attribute = "Role", data = it)
+                                                    experienceTextFieldNotBlank[2] = it.isNotBlank()
+                                                },
                                                 label = {
                                                     Text(text = "Role")
                                                 },
@@ -373,9 +396,12 @@ fun PsychologistFillProfileScreen(navController: NavController, userId: String, 
                                                     .experiences
                                                     .last()
                                                     .startDate,
-                                                onValueChange = { viewModel.onExpDataChange(attribute = "StartDate", data = it) },
+                                                onValueChange = {
+                                                    viewModel.onExpDataChange(attribute = "StartDate", data = it)
+                                                    experienceTextFieldNotBlank[3] = it.isNotBlank()
+                                                },
                                                 label = {
-                                                    Text(text = "Start Date")
+                                                    Text(text = "Start Date (DD/MM/YYYY)")
                                                 },
                                                 modifier = Modifier.fillMaxWidth().padding(10.dp)
                                             )
@@ -386,9 +412,12 @@ fun PsychologistFillProfileScreen(navController: NavController, userId: String, 
                                                     .experiences
                                                     .last()
                                                     .endDate,
-                                                onValueChange = { viewModel.onExpDataChange(attribute = "EndDate", data = it) },
+                                                onValueChange = {
+                                                    viewModel.onExpDataChange(attribute = "EndDate", data = it)
+                                                    experienceTextFieldNotBlank[4] = it.isNotBlank()
+                                                },
                                                 label = {
-                                                    Text(text = "End Date")
+                                                    Text(text = "End Date (DD/MM/YYYY)")
                                                 },
                                                 modifier = Modifier.fillMaxWidth().padding(10.dp)
                                             )
@@ -399,7 +428,10 @@ fun PsychologistFillProfileScreen(navController: NavController, userId: String, 
                                                     .experiences
                                                     .last()
                                                     .description,
-                                                onValueChange = { viewModel.onExpDataChange(attribute = "Description", data = it) },
+                                                onValueChange = {
+                                                    viewModel.onExpDataChange(attribute = "Description", data = it)
+                                                    experienceTextFieldNotBlank[5] = it.isNotBlank()
+                                                },
                                                 label = {
                                                     Text(text = "Description")
                                                 },
@@ -413,6 +445,7 @@ fun PsychologistFillProfileScreen(navController: NavController, userId: String, 
                                                 Button(
                                                     onClick = {
                                                         viewModel.onCancelExperience()
+                                                        experienceTextFieldNotBlank = emptyList<Boolean>().toMutableList()
                                                     }
                                                 ) {
                                                     Text(text = "Cancel")
@@ -421,7 +454,8 @@ fun PsychologistFillProfileScreen(navController: NavController, userId: String, 
                                                 Button(
                                                     onClick = {
                                                         viewModel.onSaveExperience()
-                                                    }
+                                                    },
+                                                    enabled = !experienceTextFieldNotBlank.contains(false)
                                                 ) {
                                                     Text(text = "Save")
                                                 }
@@ -504,7 +538,11 @@ fun PsychologistFillProfileScreen(navController: NavController, userId: String, 
                             //this is will save to firebase realtime database
                             viewModel.onConfirmSubmit {
                                 Log.d("OnConfirmSubmit-FillProfileScreen", "success")
-                                navController.navigate(route = "PsychologistHomeScreen/$userId")
+                                navController.navigate(route = "HomeScreen/${Role.PSYCHOLOGIST.name}/$userId"){
+                                    popUpTo(route = "FillProfileScreen/$userId/${Role.PSYCHOLOGIST.name}/$email"){
+                                        inclusive = true
+                                    }
+                                }
                             }
                         },
                         enabled = psychologistData.value.name.isNotEmpty() &&
@@ -513,9 +551,10 @@ fun PsychologistFillProfileScreen(navController: NavController, userId: String, 
                                 psychologistData.value.availability.contains(true) &&
                                 psychologistData.value.specializations.isNotEmpty() &&
                                 psychologistData.value.experiences.isNotEmpty() &&
-                                viewModel.imageUri.value != null
+                                viewModel.imageUri.value != null &&
+                                !viewModel.isLoading.value
                     ) {
-                        Text(text = "Confirm")
+                        Text(text = if(viewModel.isLoading.value) "Confirming..." else "Confirm")
                     }
                 }
 
