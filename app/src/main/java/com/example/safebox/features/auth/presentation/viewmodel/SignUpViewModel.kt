@@ -8,6 +8,7 @@ import com.example.safebox.features.auth.data.repository.AuthRepository
 import com.example.safebox.features.auth.domain.model.Role
 import com.example.safebox.features.auth.domain.model.SignUpData
 import com.google.firebase.auth.AuthResult
+import com.google.firebase.auth.FirebaseAuthException
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -44,11 +45,11 @@ class SignUpViewModel: ViewModel() {
         viewModelScope.launch {
             try{
                 _result.value = authRepository.signUp(_signUpData.value)
-                if(_result.value != null){
-                    onSignUpSuccess()
-                }else{
-                    _message.value = "Error when SignUp"
-                }
+                onSignUpSuccess()
+            }catch(e: FirebaseAuthException){
+                _message.value = "Firebase sign-up error: ${e.message}"
+            }catch(e: Exception){
+                _message.value = "Unexpected error during sign-up: ${e.message}"
             }finally{
                 _isLoading.value = false
                 delay(timeMillis = 3000)

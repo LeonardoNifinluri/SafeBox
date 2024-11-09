@@ -9,7 +9,7 @@ import androidx.navigation.navArgument
 import com.example.safebox.features.auth.presentation.ui.SignInScreen
 import com.example.safebox.features.auth.presentation.ui.SignUpScreen
 import com.example.safebox.features.fillprofile.presentation.ui.FillProfileScreen
-import com.example.safebox.features.fillprofile.presentation.ui.HomeScreen
+import com.example.safebox.features.home.presentation.ui.HomeScreen
 
 
 @Composable
@@ -56,33 +56,10 @@ fun NavGraph() {
             val userRole = backStackEntry.arguments?.getString("userRole")
             val userId = backStackEntry.arguments?.getString("userId")
             HomeScreen(
+                navController = navController,
                 userId = userId!!,
                 userRole = userRole!!
             )
         }
-
-//        composable(
-//            route = "PatientHomeScreen/{userId}",
-//            arguments = listOf(
-//                navArgument(name = "userId"){ type = NavType.StringType }
-//            )
-//        ){ backStackEntry ->
-//            val userId = backStackEntry.arguments?.getString("userId")
-//            PatientHomeScreen(userId = userId!!)
-//        }
-//
-//        composable(
-//            route = "PsychologistHomeScreen/{userId}",
-//            arguments = listOf(
-//                navArgument(name = "userId"){ type = NavType.StringType }
-//            )
-//        ){ backStackEntry ->
-//            val userId = backStackEntry.arguments?.getString("userId")
-//            PsychologistHomeScreen(userId = userId!!)
-//        }
-//
-//        composable(route = "UnknownUserScreen"){
-//            UnknownUserScreen(navController)
-//        }
     }
 }

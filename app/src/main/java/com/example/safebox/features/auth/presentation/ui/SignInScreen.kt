@@ -115,13 +115,13 @@ fun SignInScreen(navController: NavController) {
 //                                "UnknownUserScreen"
 //                            }
 //                        }
-                        val route = "HomeScreen/${viewModel.role.value.toString()}/$userId"
+                        val route = "HomeScreen/${viewModel.role.value.name}/$userId"
                         navController.navigate(route = route){
                             popUpTo(route = "SignInScreen")
                         }
                         Log.d(
                             "Authorization",
-                            "$userId : ${viewModel.role.value.toString()}"
+                            "$userId : ${viewModel.role.value.name}"
                         )
                     }
 
