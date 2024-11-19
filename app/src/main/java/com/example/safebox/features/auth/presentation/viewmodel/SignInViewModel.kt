@@ -29,14 +29,38 @@ class SignInViewModel: ViewModel() {
     private val _result = mutableStateOf<AuthResult?>(value = null)
     val result: State<AuthResult?> = _result
 
-//    private val _role = MutableLiveData<Role>()
-//    val role: LiveData<Role> get() = _role
-
-    private val _role = mutableStateOf(Role.UNKNOWN)
-    val role: State<Role> = _role
+    private val _role = mutableStateOf<Role?>(null)
+    val role: State<Role?> = _role
 
     private val _message = mutableStateOf<String?>(value = null)
     val message: State<String?> = _message
+
+    private val _isUserSignedIn = mutableStateOf(value = false)
+    val isUserSignedIn: State<Boolean> = _isUserSignedIn
+
+    // New loading flag to indicate initialization
+    private val _isInitializing = mutableStateOf(value = true)
+    val isInitializing: State<Boolean> = _isInitializing
+
+    private val _userId = mutableStateOf<String?>(value = null)
+    val userId: State<String?> = _userId
+
+    init {
+        checkUserSignInStatus()
+    }
+
+    private fun checkUserSignInStatus(){
+        viewModelScope.launch {
+            val currentUser = authRepository.getCurrentUser()
+            _isUserSignedIn.value = currentUser != null
+            if(currentUser != null){
+                val userId = currentUser.uid
+                _userId.value = userId
+                _role.value = getUserRoleUseCase(userId = userId)
+            }
+            _isInitializing.value = false  // Initialization complete
+        }
+    }
 
     fun onEmailChange(newEmail: String){
         _signInData.value = _signInData.value.copy(email = newEmail)

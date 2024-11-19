@@ -15,4 +15,3 @@ Yang harus dilakukan selanjutnya :
 1. (done)Membuat state isLoading untuk setiap aktivitas (auth dan fill profile)
 2. Melengkapi Ui dengan style yang ditentukan
 
-Anomali : image uri pada patient view model bisa di-reset tapi gambar lama tetap ada 

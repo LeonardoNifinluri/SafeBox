@@ -21,7 +21,7 @@ fun UnknownUserScreen(navController: NavController, userId: String) {
                 onClick = {
                     viewModel.onSignOut {
                         navController.navigate(route = "SignInScreen"){
-                            popUpTo(route = "SignInScreen"){
+                            popUpTo(id = 0){
                                 inclusive = true
                             }
                         }

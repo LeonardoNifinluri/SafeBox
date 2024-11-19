@@ -40,121 +40,133 @@ fun SignInScreen(navController: NavController) {
     val viewModel: SignInViewModel = viewModel()
     val signInData = viewModel.signInData.value
 
-    Box(
-        modifier = Modifier.fillMaxSize()
-    ){
-        Column(
-            modifier = Modifier.fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ){
-            Text(
-                text = "SignIn",
-                fontSize = 50.sp,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier.padding(50.dp)
-            )
+    //use the viewModel.isInitializing
 
-            OutlinedTextField(
-                value = signInData.email,
-                onValueChange = { viewModel.onEmailChange(it) },
-                label = {
-                    Text(text = "Email")
-                },
-                modifier = Modifier.fillMaxWidth().padding(10.dp)
-            )
+    when{
+        viewModel.isInitializing.value -> {
+            Text(text = "Initializing")
+        }
+        !viewModel.isUserSignedIn.value -> {
+            //this is when no user signed in
+            Box(
+                modifier = Modifier.fillMaxSize()
+            ){
+                Column(
+                    modifier = Modifier.fillMaxSize(),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ){
+                    Text(
+                        text = "SignIn",
+                        fontSize = 50.sp,
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier.padding(50.dp)
+                    )
 
-            val passwordVisible = remember { mutableStateOf(false) }
-            OutlinedTextField(
-                value = signInData.password,
-                onValueChange = { viewModel.onPasswordChange(it) },
-                label = {
-                    Text(text = "Password")
-                },
-                modifier = Modifier.fillMaxWidth().padding(10.dp),
-                visualTransformation = if(passwordVisible.value)
-                    VisualTransformation.None
-                else
-                    PasswordVisualTransformation(mask = '*'),
-                trailingIcon = {
-                    val image = if(passwordVisible.value)
-                        painterResource(R.drawable.ic_password_invisible)
-                    else
-                        painterResource(R.drawable.ic_password_visible)
+                    OutlinedTextField(
+                        value = signInData.email,
+                        onValueChange = { viewModel.onEmailChange(it) },
+                        label = {
+                            Text(text = "Email")
+                        },
+                        modifier = Modifier.fillMaxWidth().padding(10.dp)
+                    )
 
-                    IconButton(
-                        onClick = { passwordVisible.value = !passwordVisible.value }
-                    ) {
-                        Icon(
-                            painter = image,
-                            contentDescription = null
+                    val passwordVisible = remember { mutableStateOf(false) }
+                    OutlinedTextField(
+                        value = signInData.password,
+                        onValueChange = { viewModel.onPasswordChange(it) },
+                        label = {
+                            Text(text = "Password")
+                        },
+                        modifier = Modifier.fillMaxWidth().padding(10.dp),
+                        visualTransformation = if(passwordVisible.value)
+                            VisualTransformation.None
+                        else
+                            PasswordVisualTransformation(mask = '*'),
+                        trailingIcon = {
+                            val image = if(passwordVisible.value)
+                                painterResource(R.drawable.ic_password_invisible)
+                            else
+                                painterResource(R.drawable.ic_password_visible)
+
+                            IconButton(
+                                onClick = { passwordVisible.value = !passwordVisible.value }
+                            ) {
+                                Icon(
+                                    painter = image,
+                                    contentDescription = null
+                                )
+                            }
+                        }
+                    )
+
+                    Button(
+                        onClick = {
+                            //Log.d("Button Pressed", "${signUpData.email}, ${signUpData.password}, ${signUpData.role.name}, ")
+                            //this is will be the register method in the view model
+                            viewModel.onSubmit{
+                                //if role == PATIENT to patient activity else to psychologist activity
+                                //we have to get the role
+                                val userId = viewModel.result.value?.user?.uid ?: ""
+                                Log.d(
+                                    "SignIn Status",
+                                    "Success"
+                                )
+                                val route = "HomeScreen/${viewModel.role.value?.name}/$userId"
+                                navController.navigate(route = route){
+                                    popUpTo(route = "SignInScreen")
+                                }
+                                Log.d(
+                                    "SignIn",
+                                    "$userId : ${viewModel.role.value?.name}, ${viewModel.isUserSignedIn.value}"
+                                )
+                            }
+
+                        },
+                        modifier = Modifier.fillMaxWidth().padding(10.dp),
+                        enabled = signInData.email.isNotBlank() && signInData.password.isNotBlank() && !viewModel.isLoading.value
+                    ){
+                        Text(text = if(viewModel.isLoading.value) "Signing In..." else "Sign In")
+                    }
+
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.Center,
+                        verticalAlignment = Alignment.CenterVertically
+                    ){
+                        Text(text = "Do not have an account?")
+                        Spacer(modifier = Modifier.width(10.dp))
+                        Text(
+                            text = "SingUp here",
+                            textDecoration = TextDecoration.Underline,
+                            modifier = Modifier.clickable {
+                                navController.navigate(route = "SignUpScreen")
+                            }
+                        )
+                    }
+
+                    (if(viewModel.message.value != null) viewModel.message.value else "")?.let {
+                        Text(
+                            text = it,
+                            color = Color.Red
                         )
                     }
                 }
-            )
-
-            Button(
-                onClick = {
-                    //Log.d("Button Pressed", "${signUpData.email}, ${signUpData.password}, ${signUpData.role.name}, ")
-                    //this is will be the register method in the view model
-                    viewModel.onSubmit{
-                        //if role == PATIENT to patient activity else to psychologist activity
-                        //we have to get the role
-                        val userId = viewModel.result.value?.user?.uid ?: ""
-                        Log.d(
-                            "SignIn Status",
-                            "Success"
-                        )
-//                        val route = when (viewModel.role.value) {
-//                            Role.PATIENT -> {
-//                                "PatientHomeScreen/$userId"
-//                            }
-//                            Role.PSYCHOLOGIST -> {
-//                                "PsychologistHomeScreen/$userId"
-//                            }
-//                            else -> {
-//                                "UnknownUserScreen"
-//                            }
-//                        }
-                        val route = "HomeScreen/${viewModel.role.value.name}/$userId"
-                        navController.navigate(route = route){
-                            popUpTo(route = "SignInScreen")
-                        }
-                        Log.d(
-                            "Authorization",
-                            "$userId : ${viewModel.role.value.name}"
-                        )
-                    }
-
-                },
-                modifier = Modifier.fillMaxWidth().padding(10.dp),
-                enabled = signInData.email.isNotBlank() && signInData.password.isNotBlank() && !viewModel.isLoading.value
-            ){
-                Text(text = if(viewModel.isLoading.value) "Signing In..." else "Sign In")
             }
-
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.Center,
-                verticalAlignment = Alignment.CenterVertically
-            ){
-                Text(text = "Do not have an account?")
-                Spacer(modifier = Modifier.width(10.dp))
-                Text(
-                    text = "SingUp here",
-                    textDecoration = TextDecoration.Underline,
-                    modifier = Modifier.clickable {
-                        navController.navigate(route = "SignUpScreen")
-                    }
-                )
+        }
+        else -> {
+            //this is when a user signed in
+//            Text(text = "Already Signed In, with role : ${viewModel.role.value?.name}")
+            val userRole = viewModel.role.value?.name
+            val userId = viewModel.userId.value
+            val route = "HomeScreen/$userRole/$userId"
+            navController.navigate(route = route){
+                popUpTo(route = "SignInScreen"){
+                    inclusive = true
+                }
+                //this is to make sure only one instance will be made
+                launchSingleTop = true
             }
-
-            (if(viewModel.message.value != null) viewModel.message.value else "")?.let {
-                Text(
-                    text = it,
-                    color = Color.Red
-                )
-            }
-
         }
     }
 }

@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.example.safebox.features.auth.domain.model.Role
 import com.example.safebox.features.home.presentation.viewmodel.PatientHomeViewModel
 
 @Composable
@@ -58,7 +59,7 @@ fun PatientHomeScreen(navController: NavController, userId: String) {
                 onClick = {
                     viewModel.onSignOut {
                         navController.navigate(route = "SignInScreen"){
-                            popUpTo(route = "SignInScreen"){
+                            popUpTo(id = 0){
                                 inclusive = true
                             }
                         }
