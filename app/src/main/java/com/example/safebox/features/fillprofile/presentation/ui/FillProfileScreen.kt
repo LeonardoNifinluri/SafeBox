@@ -13,12 +13,18 @@ fun FillProfileScreen(
 ) {
 
     val role = Role.valueOf(userRole)
-
-    //this is authorization
     if(role == Role.PATIENT){
-        PatientEditProfileScreen(navController = navController, userId = userId, email = userEmail)
+        PatientEditProfileScreen(
+            navController = navController,
+            userId = userId,
+            email = userEmail
+        )
     }else{
-        PsychologistFillProfileScreen(navController = navController, userId = userId, email = userEmail)
+        PsychologistFillProfileScreen(
+            navController = navController,
+            userId = userId,
+            email = userEmail
+        )
     }
 
 }

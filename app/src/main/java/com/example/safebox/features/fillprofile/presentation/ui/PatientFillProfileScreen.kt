@@ -46,8 +46,6 @@ import com.example.safebox.features.fillprofile.presentation.viewmodel.PatientVi
 
 @Composable
 fun PatientEditProfileScreen(navController: NavController, userId: String, email: String) {
-
-    //create repository, useCase, and factory
     val uploadImageUseCase = UploadImageUseCase(FirebaseImageRepository())
     val savePatientDataUseCase = SavePatientDataUseCase(FirebaseRepository())
     val factory = PatientViewModelFactory(
@@ -61,7 +59,7 @@ fun PatientEditProfileScreen(navController: NavController, userId: String, email
     val viewModel: PatientViewModel = ViewModelProvider(context as ComponentActivity, factory)[PatientViewModel::class.java]
     val patientData = viewModel.patientData.value
 
-
+    //this is for launch image picker, don't make any changes of this
     val launcher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent()
     ) {uri: Uri? ->
@@ -135,10 +133,6 @@ fun PatientEditProfileScreen(navController: NavController, userId: String, email
                 )
             )
 
-
-            //image picker
-
-            //gender
             var isChecked1 by remember { mutableStateOf(false) }
             var isChecked2 by remember { mutableStateOf(false) }
 
@@ -150,13 +144,9 @@ fun PatientEditProfileScreen(navController: NavController, userId: String, email
                     checked = isChecked1,
                     onCheckedChange = {
                         isChecked1 = it
-
-                        //uncheck the other
                         isChecked2 = !it
-
-                        //update the role
                         viewModel.onGenderChange(Gender.MALE)
-                    } // Updates the state when clicked
+                    }
                 )
                 Text(
                     text = "Male",
@@ -169,13 +159,9 @@ fun PatientEditProfileScreen(navController: NavController, userId: String, email
                     checked = isChecked2,
                     onCheckedChange = {
                         isChecked2 = it
-
-                        //uncheck the other
                         isChecked1 = !it
-
-                        //update the role
                         viewModel.onGenderChange(Gender.FEMALE)
-                    } // Updates the state when clicked
+                    }
                 )
                 Text(
                     text = "Female",

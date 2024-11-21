@@ -45,12 +45,9 @@ import com.example.safebox.features.fillprofile.presentation.viewmodel.Psycholog
 
 @Composable
 fun PsychologistFillProfileScreen(navController: NavController, userId: String, email: String) {
-
-    //place useCase in variable
     val uploadImageUseCase = UploadImageUseCase(FirebaseImageRepository())
     val savePsychologistDataUseCase = SavePsychologistDataUseCase(FirebaseRepository())
 
-    //create the factory
     val factory = PsychologistViewModelFactory(
         userId = userId,
         email = email,
@@ -67,6 +64,7 @@ fun PsychologistFillProfileScreen(navController: NavController, userId: String, 
     var experienceTextFieldNotBlank = emptyList<Boolean>().toMutableList()
 
     //this is to pick image from gallery
+    //don't make any changes from this
     val launcher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent()
     ) {uri: Uri? ->
@@ -528,13 +526,6 @@ fun PsychologistFillProfileScreen(navController: NavController, userId: String, 
                 item{
                     Button(
                         onClick = {
-                            //this is will confirm the data and save it to firebase realtime database
-                            Log.d("AllData-Name", psychologistData.value.name)
-                            Log.d("AllData-WorkLocation", psychologistData.value.workLocation)
-                            Log.d("AllData-Availability", psychologistData.value.availability.toString())
-                            Log.d("AllData-Specialization", psychologistData.value.specializations.toString())
-                            Log.d("AllData-Experience", psychologistData.value.experiences.toString())
-
                             //this is will save to firebase realtime database
                             viewModel.onConfirmSubmit {
                                 Log.d("OnConfirmSubmit-FillProfileScreen", "success")

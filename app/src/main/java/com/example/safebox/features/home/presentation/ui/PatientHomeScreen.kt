@@ -20,7 +20,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import com.example.safebox.features.auth.domain.model.Role
 import com.example.safebox.features.home.presentation.viewmodel.PatientHomeViewModel
 
 @Composable
