@@ -65,6 +65,7 @@ fun SignUpScreen(navHostController: NavHostController) {
             )
 
             val passwordVisible = remember { mutableStateOf(false) }
+
             OutlinedTextField(
                 value = signUpData.password,
                 onValueChange = { viewModel.onPasswordChange(it) },
@@ -105,13 +106,9 @@ fun SignUpScreen(navHostController: NavHostController) {
                     checked = isChecked1,
                     onCheckedChange = {
                         isChecked1 = it
-
-                        //uncheck the other
                         isChecked2 = !it
-
-                        //update the role
                         viewModel.onRoleChange(Role.PATIENT)
-                    } // Updates the state when clicked
+                    }
                 )
                 Text(
                     text = "Patient",
@@ -124,13 +121,9 @@ fun SignUpScreen(navHostController: NavHostController) {
                     checked = isChecked2,
                     onCheckedChange = {
                         isChecked2 = it
-
-                        //uncheck the other
                         isChecked1 = !it
-
-                        //update the role
                         viewModel.onRoleChange(Role.PSYCHOLOGIST)
-                    } // Updates the state when clicked
+                    }
                 )
 
                 Text(
@@ -141,13 +134,9 @@ fun SignUpScreen(navHostController: NavHostController) {
 
             Button(
                 onClick = {
-                    //Log.d("Button Pressed", "${signUpData.email}, ${signUpData.password}, ${signUpData.role.name}, ")
-                    //this is will be the register method in the view model
                     viewModel.onSubmit{
                         try{
                             val userId = viewModel.result.value?.user?.uid ?: ""
-
-                            //make sure when user press back after success signup, the app closes
                             navHostController.navigate(route = "FillProfileScreen/$userId/${signUpData.role.name}/${signUpData.email}"){
                                 popUpTo(route = "SignUpScreen"){
                                     inclusive = true
@@ -166,6 +155,7 @@ fun SignUpScreen(navHostController: NavHostController) {
                 Text(text = if(viewModel.isLoading.value) "Signing Up..." else "Sign Up")
             }
 
+            //this is for error message
             (if(viewModel.message.value != null) viewModel.message.value else "")?.let {
                 Text(
                     text = it,

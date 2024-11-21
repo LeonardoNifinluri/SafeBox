@@ -1,6 +1,5 @@
 package com.example.safebox.features.auth.presentation.ui
 
-import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -11,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -44,10 +44,11 @@ fun SignInScreen(navController: NavController) {
 
     when{
         viewModel.isInitializing.value -> {
+            //this is to show the loading bar but for now initializing
             Text(text = "Initializing")
         }
         !viewModel.isUserSignedIn.value -> {
-            //this is when no user signed in
+            //this is login form
             Box(
                 modifier = Modifier.fillMaxSize()
             ){
@@ -68,7 +69,8 @@ fun SignInScreen(navController: NavController) {
                         label = {
                             Text(text = "Email")
                         },
-                        modifier = Modifier.fillMaxWidth().padding(10.dp)
+                        modifier = Modifier.fillMaxWidth().padding(10.dp),
+                        shape = RoundedCornerShape(10.dp)
                     )
 
                     val passwordVisible = remember { mutableStateOf(false) }
@@ -97,31 +99,19 @@ fun SignInScreen(navController: NavController) {
                                     contentDescription = null
                                 )
                             }
-                        }
+                        },
+                        shape = RoundedCornerShape(10.dp),
                     )
 
                     Button(
                         onClick = {
-                            //Log.d("Button Pressed", "${signUpData.email}, ${signUpData.password}, ${signUpData.role.name}, ")
-                            //this is will be the register method in the view model
                             viewModel.onSubmit{
-                                //if role == PATIENT to patient activity else to psychologist activity
-                                //we have to get the role
                                 val userId = viewModel.result.value?.user?.uid ?: ""
-                                Log.d(
-                                    "SignIn Status",
-                                    "Success"
-                                )
                                 val route = "HomeScreen/${viewModel.role.value?.name}/$userId"
-                                navController.navigate(route = route){
+                                navController.navigate(route = route) {
                                     popUpTo(route = "SignInScreen")
                                 }
-                                Log.d(
-                                    "SignIn",
-                                    "$userId : ${viewModel.role.value?.name}, ${viewModel.isUserSignedIn.value}"
-                                )
                             }
-
                         },
                         modifier = Modifier.fillMaxWidth().padding(10.dp),
                         enabled = signInData.email.isNotBlank() && signInData.password.isNotBlank() && !viewModel.isLoading.value
@@ -155,8 +145,7 @@ fun SignInScreen(navController: NavController) {
             }
         }
         else -> {
-            //this is when a user signed in
-//            Text(text = "Already Signed In, with role : ${viewModel.role.value?.name}")
+            //this is when user already signed in
             val userRole = viewModel.role.value?.name
             val userId = viewModel.userId.value
             val route = "HomeScreen/$userRole/$userId"
