@@ -37,11 +37,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.*
 import com.example.safebox.features.auth.domain.model.Role
 import com.example.safebox.features.auth.presentation.viewmodel.SignUpViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.example.safebox.R
 import com.example.safebox.ui.theme.MainColor
 
@@ -235,4 +237,11 @@ fun SignUpScreen(navHostController: NavHostController) {
             }
         }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun SignUpScreenPreview() {
+    val navController = rememberNavController() // Placeholder NavHostController
+    SignUpScreen(navHostController = navController)
 }
