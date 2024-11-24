@@ -1,3 +1,17 @@
 <resources>
     <string name="app_name">SafeBox</string>
+    <string name="patient">Pasien</string>
+    <string name="profile">Profil</string>
+    <string name="psychologist">Psikolog</string>
+    <string name="signing_up">Sedang Mendaftar...</string>
+    <string name="signup">Daftar</string>
+    <string name="user_name">Nama</string>
+    <string name="birthdate">Tanggal Lahir(DD/MM/YYYY)</string>
+    <string name="address">Alamat</string>
+    <string name="phone_number">No. Telp</string>
+    <string name="gender_male">Pria</string>
+    <string name="gender_female">Wanita</string>
+    <string name="pick_image">Pilih Foto</string>
+    <string name="confirm">Konfirmasi</string>
+    <string name="saving_data">Menyimpan Data...</string>
 </resources>

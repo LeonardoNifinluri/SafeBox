@@ -13,6 +13,9 @@ import com.example.safebox.features.fillprofile.domain.model.patient.Patient
 import com.example.safebox.features.fillprofile.domain.usecase.SavePatientDataUseCase
 import com.example.safebox.features.fillprofile.domain.usecase.UploadImageUseCase
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class PatientViewModel(
     private val userId: String,
@@ -37,12 +40,16 @@ class PatientViewModel(
     private val _isLoading = mutableStateOf(value = false)
     val isLoading: State<Boolean> = _isLoading
 
+    private val _showDateDialog = mutableStateOf(value = false)
+    val showDateDialog: State<Boolean> = _showDateDialog
+
     fun onNameChange(newName: String){
         _patientData.value = _patientData.value.copy(name = newName)
     }
 
     fun onBirthdateChange(newBirthdate: String){
         _patientData.value = _patientData.value.copy(birthdate = newBirthdate)
+        _showDateDialog.value = false
     }
 
     fun onGenderChange(newGender: Gender){
@@ -65,6 +72,19 @@ class PatientViewModel(
 
     //need a function to handle the medical record of user(later)
     //default value of patientData.medicalRecords = null and patientData.diary = null
+
+    fun onPickBirthdate(){
+        _showDateDialog.value = true
+    }
+
+    fun onCancelPickDate(){
+        _showDateDialog.value = false
+    }
+
+    fun convertMillisToDate(millis: Long): String {
+        val formatter = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+        return formatter.format(Date(millis))
+    }
 
     fun onConfirmSubmit(onSaveSuccess: () -> Unit){
         //must get user confirmation first
