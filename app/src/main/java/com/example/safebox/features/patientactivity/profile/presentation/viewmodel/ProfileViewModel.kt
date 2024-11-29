@@ -1,16 +1,13 @@
-package com.example.safebox.features.home.presentation.viewmodel
+package com.example.safebox.features.patientactivity.profile.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
 import com.example.safebox.features.auth.data.repository.AuthRepository
 
-class UnknownUserViewModel: ViewModel() {
-
+class ProfileViewModel: ViewModel() {
     private val firebaseAuth = AuthRepository()
-
-    fun onSignOut(signOutSuccess: () -> Unit){
+    fun signOut(onSuccess: () -> Unit){
         firebaseAuth.signOut {
-            signOutSuccess()
+            onSuccess()
         }
     }
-
 }

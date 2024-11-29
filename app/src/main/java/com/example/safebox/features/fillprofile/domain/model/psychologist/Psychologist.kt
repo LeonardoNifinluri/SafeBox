@@ -1,7 +1,6 @@
 package com.example.safebox.features.fillprofile.domain.model.psychologist
 
 import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.snapshots.SnapshotStateList
 import com.example.safebox.features.auth.domain.model.Role
 
 data class Psychologist(
@@ -12,6 +11,6 @@ data class Psychologist(
     var workLocation: String = "",
     var availability: List<Boolean> =  List(size = 7) { false }, //this list has length 7, idx 0 -> monday, idx 1 -> tuesday, etc. If true then available else not
     var profileImage: String = "", //this is the url of image in firebase storage
-    val specializations: SnapshotStateList<Specialization> = mutableStateListOf(),
-    val experiences: SnapshotStateList<Experience> = mutableStateListOf()
+    var specializations: MutableList<Specialization> = mutableStateListOf(),
+    var experiences: MutableList<Experience> = mutableStateListOf()
 )

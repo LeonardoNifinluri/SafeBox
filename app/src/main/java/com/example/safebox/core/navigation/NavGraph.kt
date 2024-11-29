@@ -1,4 +1,4 @@
-package com.example.safebox.navigation
+package com.example.safebox.core.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavType
@@ -6,10 +6,11 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.example.safebox.features.auth.domain.model.Role
 import com.example.safebox.features.auth.presentation.ui.SignInScreen
 import com.example.safebox.features.auth.presentation.ui.SignUpScreen
 import com.example.safebox.features.fillprofile.presentation.ui.FillProfileScreen
-import com.example.safebox.features.home.presentation.ui.HomeScreen
+import com.example.safebox.features.patientactivity.PatientActivity
 
 
 @Composable
@@ -55,13 +56,22 @@ fun NavGraph() {
                 navArgument(name = "userId"){ type = NavType.StringType}
             )
         ){ backStackEntry ->
-            val userRole = backStackEntry.arguments?.getString("userRole")
-            val userId = backStackEntry.arguments?.getString("userId")
-            HomeScreen(
-                navController = navController,
-                userId = userId!!,
-                userRole = userRole!!
-            )
+            val userRole = backStackEntry.arguments?.getString("userRole")!!
+            val userId = backStackEntry.arguments?.getString("userId")!!
+            when(Role.valueOf(userRole)){
+                Role.PATIENT -> {
+                    PatientActivity(
+                        authNavController = navController,
+                        userId = userId
+                    )
+                }
+                Role.PSYCHOLOGIST -> {
+
+                }
+                Role.UNKNOWN -> {
+
+                }
+            }
         }
     }
 }

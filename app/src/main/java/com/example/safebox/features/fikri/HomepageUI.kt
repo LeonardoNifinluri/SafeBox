@@ -84,6 +84,7 @@ fun HeaderHomepageSection(){
                     )
                 }
 
+                //this is for image profile
                 Image(
                     painter = (painterResource(R.drawable.frame_11__1_)),
                     contentDescription = "Foto Profil",
@@ -319,13 +320,17 @@ fun PsychologistCard(name: String, specialization: String, @DrawableRes imageRes
 @Preview(showBackground = true)
 @Composable
 fun PreviewPsychologistCard() {
-    PsychologistCard("Leo Koffte", "Depresi, Keluarga, Remaja ", R.drawable.gambar_testing, {})
+    PsychologistCard("Leo Koffte", "Depresi, Keluarga, Remaja ", R.drawable.gambar_testing){
+        //this is clickable card
+    }
 }
 
 @Preview(showBackground = true)
 @Composable
 fun PreviewPsychologistCard2() {
-    PsychologistCard("Fikri’09", "Depresi, Remaja, Anak ", R.drawable.gambar_testing2, {})
+    PsychologistCard("Fikri’09", "Depresi, Remaja, Anak ", R.drawable.gambar_testing2){
+        //this is clickable card
+    }
 }
 
 
