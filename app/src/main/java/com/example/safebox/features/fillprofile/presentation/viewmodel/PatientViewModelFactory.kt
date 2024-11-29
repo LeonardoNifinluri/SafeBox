@@ -15,7 +15,6 @@ class PatientViewModelFactory(
         if(modelClass.isAssignableFrom(PatientViewModel::class.java)){
             return PatientViewModel(userId, email, uploadImageUseCase, savePatientDataUseCase) as T
         }
-
         throw  IllegalArgumentException("Unknown ViewModel Class")
     }
 }

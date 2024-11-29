@@ -1,0 +1,8 @@
+What still on error:
+1. in FirebaseRepositoryImpl, in function getPsychologistData, firebase give ArrayList but specializations and experiences accept SnapshotStateList
+   this makes the psychologistState in PatientHomePage emptyList()
+
+What should be done:
+1. Fixing the type mismatch in FirebaseRepositoryImpl
+2. Complete the nav bar in PatientHomeScreen
+3. Complete navigation for each component in PatientHomeScreen

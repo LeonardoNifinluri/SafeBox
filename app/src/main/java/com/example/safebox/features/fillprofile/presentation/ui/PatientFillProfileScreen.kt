@@ -196,28 +196,6 @@ fun PatientEditProfileScreen(navController: NavController, userId: String, email
                             DatePicker(state = datePickerState)
                         }
                     }
-//                    OutlinedTextField(
-//                        value = patientData.birthdate,
-//                        onValueChange = { viewModel.onBirthdateChange(it) },
-//                        label = {
-//                            Text(text = stringResource(id = R.string.birthdate))
-//                        },
-//                        leadingIcon = {
-//                            Icon(
-//                                painter = painterResource(R.drawable.ic_email),
-//                                contentDescription = null
-//                            )
-//                        },
-//                        modifier = Modifier
-//                            .fillMaxWidth(),
-//                        shape = RoundedCornerShape(12.dp),
-//                        colors = TextFieldDefaults.colors(
-//                            unfocusedTextColor = Color.Black,
-//                            focusedTextColor = Color.Black,
-//                            focusedIndicatorColor = Color.Gray,
-//                            unfocusedIndicatorColor = Color.Gray
-//                        )
-//                    )
                     Spacer(modifier = Modifier.height(10.dp))
                     OutlinedTextField(
                         value = patientData.address,
