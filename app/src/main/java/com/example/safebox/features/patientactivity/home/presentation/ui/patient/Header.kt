@@ -26,7 +26,10 @@ import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 
 @Composable
-fun Header(name: String, imageUrl: String) {
+fun Header(
+    name: String,
+    imageUrl: String
+) {
     Surface(
         color = Color(color = 0xFFFABC3F)
     ){

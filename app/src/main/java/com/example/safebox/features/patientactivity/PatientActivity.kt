@@ -9,7 +9,9 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -21,8 +23,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.safebox.R
+import com.example.safebox.features.patientactivity.consultation.presentation.ui.ConsultationScreen
 import com.example.safebox.features.patientactivity.dataobject.PatientScreensDO
-import com.example.safebox.features.patientactivity.diary.presentation.ui.DiaryScreen
+import com.example.safebox.features.patientactivity.diary.create.presentation.ui.CreateDiaryScreen
+import com.example.safebox.features.patientactivity.diary.list.presentation.ui.DiaryScreen
 import com.example.safebox.features.patientactivity.history.presentation.ui.HistoryScreen
 import com.example.safebox.features.patientactivity.home.presentation.ui.patient.PatientHomeScreen
 import com.example.safebox.features.patientactivity.profile.presentation.ui.ProfileScreen
@@ -36,112 +40,133 @@ fun PatientActivity(
     val selected = remember{
         mutableIntStateOf(value = R.drawable.logo_beranda)
     }
+    val showBottomBar = remember{ mutableStateOf(value = true) }
+
+    // Observe navigation changes to dynamically show/hide the bottom bar
+    DisposableEffect(navController) {
+        val callback = NavController.OnDestinationChangedListener { _, destination, _ ->
+            // Update visibility based on the current screen
+            showBottomBar.value = when (destination.route) {
+                PatientScreensDO.Home.screen,
+                PatientScreensDO.Note.screen,
+                PatientScreensDO.History.screen,
+                PatientScreensDO.Profile.screen -> true
+                else -> false
+            }
+        }
+        navController.addOnDestinationChangedListener(callback)
+        onDispose {
+            navController.removeOnDestinationChangedListener(callback)
+        }
+    }
     Scaffold(
         bottomBar = {
-            BottomAppBar(
-                containerColor = Color(color = 0xFFC7253E)
-            ) {
-                //this is for home
-                Column(
-                    modifier = Modifier.fillMaxSize().weight(1f),
-                    horizontalAlignment = Alignment.CenterHorizontally
+            if(showBottomBar.value){
+                BottomAppBar(
+                    containerColor = Color(color = 0xFFC7253E)
                 ) {
-                    IconButton(
-                        onClick = {
-                            selected.intValue = R.drawable.logo_beranda
-                            navController.navigate(PatientScreensDO.Home.screen){
-                                popUpTo(0)
-                            }
-                        },
-                        enabled = selected.intValue != R.drawable.logo_beranda
+                    //this is for home
+                    Column(
+                        modifier = Modifier.fillMaxSize().weight(1f),
+                        horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        Icon(
-                            painter = painterResource(id = R.drawable.logo_beranda),
-                            contentDescription = null,
+                        IconButton(
+                            onClick = {
+                                selected.intValue = R.drawable.logo_beranda
+                                navController.navigate(PatientScreensDO.Home.screen){
+                                    popUpTo(0)
+                                }
+                            },
+                            enabled = selected.intValue != R.drawable.logo_beranda
+                        ) {
+                            Icon(
+                                painter = painterResource(id = R.drawable.logo_beranda),
+                                contentDescription = null,
+                            )
+                        }
+                        Text(
+                            text = "Beranda",
+                            fontSize = 10.sp
                         )
                     }
-                    Text(
-                        text = "Beranda",
-                        fontSize = 10.sp
-                    )
-                }
 
-                //this is for note
-                Column(
-                    modifier = Modifier.fillMaxSize().weight(1f),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    IconButton(
-                        onClick = {
-                            selected.intValue = R.drawable.logo_diarykeseharianku
-                            navController.navigate(PatientScreensDO.Note.screen){
-                                popUpTo(0)
-                            }
-                        },
-                        enabled = selected.intValue != R.drawable.logo_diarykeseharianku
+                    //this is for note
+                    Column(
+                        modifier = Modifier.fillMaxSize().weight(1f),
+                        horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        Icon(
-                            painter = painterResource(id = R.drawable.logo_diarykeseharianku),
-                            contentDescription = null,
+                        IconButton(
+                            onClick = {
+                                selected.intValue = R.drawable.logo_diarykeseharianku
+                                navController.navigate(PatientScreensDO.Note.screen){
+                                    popUpTo(0)
+                                }
+                            },
+                            enabled = selected.intValue != R.drawable.logo_diarykeseharianku
+                        ) {
+                            Icon(
+                                painter = painterResource(id = R.drawable.logo_diarykeseharianku),
+                                contentDescription = null,
+                            )
+                        }
+                        Text(
+                            text = "Catatan",
+                            fontSize = 10.sp
                         )
                     }
-                    Text(
-                        text = "Catatan",
-                        fontSize = 10.sp
-                    )
-                }
 
-                //this is for history
-                Column(
-                    modifier = Modifier.fillMaxSize().weight(1f),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    IconButton(
-                        onClick = {
-                            selected.intValue = R.drawable.logo_konsulpsikolog
-                            navController.navigate(PatientScreensDO.History.screen){
-                                popUpTo(0)
-                            }
-                        },
-                        enabled = selected.intValue != R.drawable.logo_konsulpsikolog
+                    //this is for history
+                    Column(
+                        modifier = Modifier.fillMaxSize().weight(1f),
+                        horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        Icon(
-                            painter = painterResource(id = R.drawable.logo_konsulpsikolog),
-                            contentDescription = null,
+                        IconButton(
+                            onClick = {
+                                selected.intValue = R.drawable.logo_konsulpsikolog
+                                navController.navigate(PatientScreensDO.History.screen){
+                                    popUpTo(0)
+                                }
+                            },
+                            enabled = selected.intValue != R.drawable.logo_konsulpsikolog
+                        ) {
+                            Icon(
+                                painter = painterResource(id = R.drawable.logo_konsulpsikolog),
+                                contentDescription = null,
+                            )
+                        }
+                        Text(
+                            text = "Riwayat",
+                            fontSize = 10.sp
                         )
                     }
-                    Text(
-                        text = "Riwayat",
-                        fontSize = 10.sp
-                    )
-                }
 
 
-                //this is for profile
-                Column(
-                    modifier = Modifier.fillMaxSize().weight(1f),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    IconButton(
-                        onClick = {
-                            selected.intValue = R.drawable.logo_profil
-                            navController.navigate(PatientScreensDO.Profile.screen){
-                                popUpTo(0)
-                            }
-                        },
-                        enabled = selected.intValue != R.drawable.logo_profil
+                    //this is for profile
+                    Column(
+                        modifier = Modifier.fillMaxSize().weight(1f),
+                        horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        Icon(
-                            painter = painterResource(id = R.drawable.logo_profil),
-                            contentDescription = null,
+                        IconButton(
+                            onClick = {
+                                selected.intValue = R.drawable.logo_profil
+                                navController.navigate(PatientScreensDO.Profile.screen){
+                                    popUpTo(0)
+                                }
+                            },
+                            enabled = selected.intValue != R.drawable.logo_profil
+                        ) {
+                            Icon(
+                                painter = painterResource(id = R.drawable.logo_profil),
+                                contentDescription = null,
+                            )
+                        }
+                        Text(
+                            text = "Profil",
+                            fontSize = 10.sp
                         )
                     }
-                    Text(
-                        text = "Profil",
-                        fontSize = 10.sp
-                    )
-                }
 
+                }
             }
         }
     ) { paddingValues ->
@@ -153,7 +178,10 @@ fun PatientActivity(
             composable(route = PatientScreensDO.Home.screen){
                 PatientHomeScreen(
                     navController = navController,
-                    userId = userId
+                    userId = userId,
+                    hideBottomNavBar = {
+                        showBottomBar.value = false
+                    }
                 )
             }
             composable(route = PatientScreensDO.Note.screen){
@@ -162,8 +190,25 @@ fun PatientActivity(
             composable(route = PatientScreensDO.History.screen){
                 HistoryScreen()
             }
-            composable(route = PatientScreensDO.Profile.screen){
-                ProfileScreen(authNavController = authNavController)
+            composable(
+                route = PatientScreensDO.Profile.screen
+            ){
+                ProfileScreen(
+                    authNavController = authNavController,
+                    userId = userId
+                )
+            }
+            composable(route = PatientScreensDO.Consultation.screen){
+                ConsultationScreen(navController = navController){
+                    showBottomBar.value = false
+                }
+            }
+            composable(route = PatientScreensDO.CreateDiary.screen){
+                CreateDiaryScreen(navController = navController)
+            }
+            //this is for psychologist detail using psychologist user id
+            composable(route = "${PatientScreensDO.Consultation.screen}/detail/{userId}"){
+
             }
         }
     }

@@ -39,7 +39,8 @@ fun PsychologistCard(
     name: String,
     specializations: MutableList<Specialization>,
     imageUrl: String,
-    navController: NavController
+    navController: NavController,
+    hideBottomNavBar: () -> Unit
 ) {
     val painter = rememberAsyncImagePainter(
         ImageRequest.Builder(LocalContext.current)
@@ -53,6 +54,7 @@ fun PsychologistCard(
             .height(280.dp)
             .clickable{
                 //this is the navigation is used
+
             },
         shape = RoundedCornerShape(10.dp),
         colors = CardDefaults.cardColors(
