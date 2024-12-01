@@ -17,6 +17,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.safebox.R
 import com.example.safebox.features.fikri.FeatureButton
+import com.example.safebox.features.patientactivity.dataobject.PatientScreensDO
 
 /*
 @Note
@@ -26,7 +27,10 @@ import com.example.safebox.features.fikri.FeatureButton
 */
 
 @Composable
-fun FeatureButtons(navController: NavController) {
+fun FeatureButtons(
+    navController: NavController,
+    hideBottomNavBar: () -> Unit
+) {
     val backgroundColor = Color(0xFFFABC3F)
 
     Surface(
@@ -53,6 +57,7 @@ fun FeatureButtons(navController: NavController) {
                         text = "Konsul\nPsikolog",
                         onClick = {
                             //this is use navController to navigate to konsulPsikolog page
+                            navController.navigate(route = PatientScreensDO.Consultation.screen)
                         }
                     )
                     FeatureButton(
@@ -60,6 +65,8 @@ fun FeatureButtons(navController: NavController) {
                         text = "Diary\nKeseharianku",
                         onClick = {
                             //this is use navController to navigate to diary page
+                            hideBottomNavBar()
+                            navController.navigate(route = PatientScreensDO.CreateDiary.screen)
                         }
                     )
                     FeatureButton(

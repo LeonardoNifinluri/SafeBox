@@ -1,4 +1,4 @@
-package com.example.safebox.features.patientactivity.diary.data.datasource
+package com.example.safebox.features.patientactivity.diary.list.data.datasource
 
 import kotlinx.datetime.LocalDate
 

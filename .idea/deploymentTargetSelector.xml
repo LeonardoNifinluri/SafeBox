@@ -8,15 +8,6 @@
       <SelectionState runConfigName="PreviewHomepageScreen">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="PsychologistSectionListPreview">
-        <option name="selectionMode" value="DROPDOWN" />
-      </SelectionState>
-      <SelectionState runConfigName="PreviewPsychologistSectionList">
-        <option name="selectionMode" value="DROPDOWN" />
-      </SelectionState>
-      <SelectionState runConfigName="PreviewBottomNavBar">
-        <option name="selectionMode" value="DROPDOWN" />
-      </SelectionState>
       <SelectionState runConfigName="PreviewKonsulPsikologScreen">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>

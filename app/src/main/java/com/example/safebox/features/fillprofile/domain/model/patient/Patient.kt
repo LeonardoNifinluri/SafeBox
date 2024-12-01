@@ -1,7 +1,7 @@
 package com.example.safebox.features.fillprofile.domain.model.patient
 
 import com.example.safebox.features.auth.domain.model.Role
-import com.example.safebox.features.patientactivity.diary.data.datasource.Diary
+import com.example.safebox.features.patientactivity.diary.list.data.datasource.Diary
 
 data class Patient(
     var name: String = "",

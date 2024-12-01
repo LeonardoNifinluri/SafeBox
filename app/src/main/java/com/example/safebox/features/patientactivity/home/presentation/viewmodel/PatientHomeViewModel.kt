@@ -18,7 +18,6 @@ class PatientHomeViewModel(
     private val getPatientDataUseCase: GetPatientDataUseCase,
     private val getPsychologistDataUseCase: GetPsychologistDataUseCase
 ): ViewModel(){
-    private val firebaseAuth = AuthRepository()
 
     // StateFlow for managing the state of the fetched Psychologist data
     private val _psychologistState = MutableStateFlow<Result<List<Psychologist>>>(Result.Loading)
@@ -65,12 +64,6 @@ class PatientHomeViewModel(
                 Log.e("ErrorFetch", "Error when fetch pat data: ", e)
                 _patientState.value = Result.Error(exception = e)
             }
-        }
-    }
-
-    fun onSignOut(signOutSuccess: () -> Unit){
-        firebaseAuth.signOut {
-            signOutSuccess()
         }
     }
 

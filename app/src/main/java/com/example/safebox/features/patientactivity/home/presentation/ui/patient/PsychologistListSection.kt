@@ -23,16 +23,18 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.safebox.features.fillprofile.domain.model.psychologist.Psychologist
 import com.example.safebox.core.result.Result
+import com.example.safebox.features.patientactivity.dataobject.PatientScreensDO
 
 
 @Composable
 fun PsychologistListSection(
     psychologistState: Result<List<Psychologist>>,
-    navController: NavController
+    navController: NavController,
+    hideBottomNavBar: () -> Unit
 ) {
     Surface(
         modifier = Modifier.fillMaxSize(),
-        color = Color.White
+        color = Color(color = 0xFFEBEBEB)
     ) {
         when(psychologistState){
             is  Result.Loading -> {
@@ -56,8 +58,12 @@ fun PsychologistListSection(
                     PsychologistList(
                         psychologists = psychologists,
                         navController = navController
-                    )
-                    SeeMoreButton(navController = navController)
+                    ){
+                        hideBottomNavBar()
+                    }
+                    SeeMoreButton(navController = navController){
+                        hideBottomNavBar()
+                    }
                 }
             }
 
@@ -94,7 +100,11 @@ fun SectionTitle(title: String) {
 }
 
 @Composable
-fun PsychologistList(psychologists: List<Psychologist>, navController: NavController) {
+fun PsychologistList(
+    psychologists: List<Psychologist>,
+    navController: NavController,
+    hideBottomNavBar: () -> Unit
+) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -119,7 +129,9 @@ fun PsychologistList(psychologists: List<Psychologist>, navController: NavContro
                             specializations = psychologist.specializations,
                             imageUrl = psychologist.profileImage,
                             navController = navController
-                        )
+                        ){
+                            hideBottomNavBar()
+                        }
                     }
                 }
                 if (chunk.size == 1) {
@@ -131,7 +143,10 @@ fun PsychologistList(psychologists: List<Psychologist>, navController: NavContro
 }
 
 @Composable
-fun SeeMoreButton(navController: NavController) {
+fun SeeMoreButton(
+    navController: NavController,
+    hideBottomNavBar: () -> Unit
+) {
     Column (
         modifier = Modifier
             .fillMaxWidth().padding(horizontal = 16.dp),
@@ -140,6 +155,8 @@ fun SeeMoreButton(navController: NavController) {
         Button(
             onClick = {
                 //this will navigate to other page ()
+                hideBottomNavBar()
+                navController.navigate(route = PatientScreensDO.Consultation.screen)
             },
             modifier = Modifier
                 .fillMaxWidth()

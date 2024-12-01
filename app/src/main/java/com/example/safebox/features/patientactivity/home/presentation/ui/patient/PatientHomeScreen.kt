@@ -22,14 +22,15 @@ import com.example.safebox.features.patientactivity.home.domain.usecase.GetPatie
 import com.example.safebox.features.patientactivity.home.domain.usecase.GetPsychologistDataUseCase
 import com.example.safebox.features.patientactivity.home.presentation.viewmodel.PatientHomeViewModel
 import com.example.safebox.features.patientactivity.home.presentation.viewmodel.PatientHomeViewModelFactory
+import com.example.safebox.features.patientactivity.home.data.repository.FirebaseRepositoryImpl
 
 @Composable
 fun PatientHomeScreen(
     navController: NavController,
-    userId: String
+    userId: String,
+    hideBottomNavBar: () -> Unit
 ) {
-    val repositoryImpl =
-        com.example.safebox.features.patientactivity.home.data.repository.FirebaseRepositoryImpl()
+    val repositoryImpl = FirebaseRepositoryImpl()
     val getPatientDataUseCase = GetPatientDataUseCase(repositoryImpl)
     val getPsychologistDataUseCase = GetPsychologistDataUseCase(repositoryImpl)
     val factory = PatientHomeViewModelFactory(
@@ -74,7 +75,9 @@ fun PatientHomeScreen(
                             )
                         }
                         item{
-                            FeatureButtons(navController = navController)
+                            FeatureButtons(navController = navController){
+                                hideBottomNavBar()
+                            }
                         }
                         item{
                             MoodSlider()
@@ -84,7 +87,9 @@ fun PatientHomeScreen(
                             PsychologistListSection(
                                 psychologistState = psychologistState,
                                 navController = navController
-                            )
+                            ){
+                                hideBottomNavBar()
+                            }
                         }
                     }
                 }
