@@ -25,8 +25,8 @@ import androidx.navigation.compose.rememberNavController
 import com.example.safebox.R
 import com.example.safebox.features.patientactivity.consultation.presentation.ui.ConsultationScreen
 import com.example.safebox.features.patientactivity.dataobject.PatientScreensDO
-import com.example.safebox.features.patientactivity.diary.create.presentation.ui.CreateDiaryScreen
-import com.example.safebox.features.patientactivity.diary.list.presentation.ui.DiaryScreen
+import com.example.safebox.features.patientactivity.diary.presentation.form.ui.CreateDiaryScreen
+import com.example.safebox.features.patientactivity.diary.presentation.list.ui.DiaryScreen
 import com.example.safebox.features.patientactivity.history.presentation.ui.HistoryScreen
 import com.example.safebox.features.patientactivity.home.presentation.ui.patient.PatientHomeScreen
 import com.example.safebox.features.patientactivity.profile.presentation.ui.ProfileScreen
@@ -204,7 +204,10 @@ fun PatientActivity(
                 }
             }
             composable(route = PatientScreensDO.CreateDiary.screen){
-                CreateDiaryScreen(navController = navController)
+                CreateDiaryScreen(
+                    navController = navController,
+                    userId = userId
+                )
             }
             //this is for psychologist detail using psychologist user id
             composable(route = "${PatientScreensDO.Consultation.screen}/detail/{userId}"){
