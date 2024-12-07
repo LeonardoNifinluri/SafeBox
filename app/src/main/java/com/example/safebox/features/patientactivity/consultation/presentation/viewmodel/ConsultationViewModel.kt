@@ -20,7 +20,7 @@ class ConsultationViewModel(private val getPsychologistDataUseCase: GetPsycholog
 
     private fun fetchPsychologistsData(){
         viewModelScope.launch {
-            _psychologistState.value = Result.Loading
+//            _psychologistState.value = Result.Loading
             try{
                 val psychologists = getPsychologistDataUseCase()
                 if(psychologists.isNotEmpty()){

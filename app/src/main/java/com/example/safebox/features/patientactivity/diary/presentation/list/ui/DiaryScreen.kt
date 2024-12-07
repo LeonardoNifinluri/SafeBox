@@ -1,4 +1,4 @@
-package com.example.safebox.features.patientactivity.diary.list.presentation.ui
+package com.example.safebox.features.patientactivity.diary.presentation.list.ui
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
