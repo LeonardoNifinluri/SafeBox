@@ -12,5 +12,6 @@ data class Psychologist(
     var availability: List<Boolean> =  List(size = 7) { false }, //this list has length 7, idx 0 -> monday, idx 1 -> tuesday, etc. If true then available else not
     var profileImage: String = "", //this is the url of image in firebase storage
     var specializations: MutableList<Specialization> = mutableStateListOf(),
-    var experiences: MutableList<Experience> = mutableStateListOf()
+    var experiences: MutableList<Experience> = mutableStateListOf(),
+    var id: String = ""
 )

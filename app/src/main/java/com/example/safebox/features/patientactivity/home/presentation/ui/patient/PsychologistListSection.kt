@@ -54,13 +54,10 @@ fun PsychologistListSection(
                     SectionTitle(
                         title = "Konsul ke Psikolog Yuk!",
                     )
-
                     PsychologistList(
                         psychologists = psychologists,
                         navController = navController
-                    ){
-                        hideBottomNavBar()
-                    }
+                    )
                     SeeMoreButton(navController = navController){
                         hideBottomNavBar()
                     }
@@ -102,8 +99,7 @@ fun SectionTitle(title: String) {
 @Composable
 fun PsychologistList(
     psychologists: List<Psychologist>,
-    navController: NavController,
-    hideBottomNavBar: () -> Unit
+    navController: NavController
 ) {
     Column(
         modifier = Modifier
@@ -128,10 +124,12 @@ fun PsychologistList(
                             name = psychologist.name,
                             specializations = psychologist.specializations,
                             imageUrl = psychologist.profileImage,
-                            navController = navController
-                        ){
-                            hideBottomNavBar()
-                        }
+                            navController = navController,
+                            psychologistId = psychologist.id
+                        )
+//                        {
+//                            hideBottomNavBar()
+//                        }
                     }
                 }
                 if (chunk.size == 1) {

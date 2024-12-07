@@ -34,7 +34,8 @@ class DiaryRepositoryImpl: DiaryRepository {
             Log.d("GetDiaryStatus", "Success")
             if(snapshot.exists()){
                 val diaries = snapshot.children.mapNotNull { dataSnapshot ->
-                    dataSnapshot.getValue(Diary::class.java)
+                    val diary = dataSnapshot.getValue(Diary::class.java)
+                    diary?.copy(id = dataSnapshot.key ?: "")
                 }
                 return diaries
             }else{

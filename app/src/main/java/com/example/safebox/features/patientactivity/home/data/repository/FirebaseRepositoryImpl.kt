@@ -16,11 +16,11 @@ class FirebaseRepositoryImpl: FirebaseRepository {
                 .orderByChild("role")
                 .equalTo(Role.PSYCHOLOGIST.name)
                 .get().await()
-
             if (snapshot.exists()) {
                 //this is error because firebase return specialization and experience as ArrayList not as SnapshotStateList
                 val psychologists = snapshot.children.mapNotNull { dataSnapshot ->
-                    dataSnapshot.getValue(Psychologist::class.java)
+                    val psychologist = dataSnapshot.getValue(Psychologist::class.java)
+                    psychologist?.copy(id = dataSnapshot.key?: "")
                 }
                 return psychologists
             } else {
