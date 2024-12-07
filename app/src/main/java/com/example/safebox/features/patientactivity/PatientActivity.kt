@@ -19,11 +19,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.example.safebox.R
 import com.example.safebox.features.patientactivity.consultation.presentation.ui.ConsultationScreen
+import com.example.safebox.features.patientactivity.consultation.presentation.ui.PsychologistDetailScreen
 import com.example.safebox.features.patientactivity.dataobject.PatientScreensDO
 import com.example.safebox.features.patientactivity.diary.presentation.form.ui.CreateDiaryScreen
 import com.example.safebox.features.patientactivity.diary.presentation.list.ui.DiaryScreen
@@ -185,7 +188,7 @@ fun PatientActivity(
                 )
             }
             composable(route = PatientScreensDO.Note.screen){
-                DiaryScreen()
+                DiaryScreen(userId = userId)
             }
             composable(route = PatientScreensDO.History.screen){
                 HistoryScreen()
@@ -199,9 +202,7 @@ fun PatientActivity(
                 )
             }
             composable(route = PatientScreensDO.Consultation.screen){
-                ConsultationScreen(navController = navController){
-                    showBottomBar.value = false
-                }
+                ConsultationScreen(navController = navController)
             }
             composable(route = PatientScreensDO.CreateDiary.screen){
                 CreateDiaryScreen(
@@ -210,8 +211,16 @@ fun PatientActivity(
                 )
             }
             //this is for psychologist detail using psychologist user id
-            composable(route = "${PatientScreensDO.Consultation.screen}/detail/{userId}"){
-
+            composable(
+                route = "${PatientScreensDO.Consultation.screen}/detail/{userId}",
+                arguments = listOf(
+                    navArgument(name = "userId"){ type = NavType.StringType}
+                )
+            ){navBackStackEntry ->
+                val psychologistUserId = navBackStackEntry.arguments?.getString("userId")!!
+                PsychologistDetailScreen(
+                    userId = psychologistUserId
+                )
             }
         }
     }
