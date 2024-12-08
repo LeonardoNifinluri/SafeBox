@@ -63,7 +63,7 @@ fun HeaderKonsultasiPsikolog(
                         )
                     }
 
-                    Spacer(modifier = Modifier.height(5.dp))
+                    Spacer(modifier = Modifier.height(1.dp))
 
                     Text(
                         text = "Konsul Psikolog",
