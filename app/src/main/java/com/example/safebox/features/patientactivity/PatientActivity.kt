@@ -188,7 +188,10 @@ fun PatientActivity(
                 )
             }
             composable(route = PatientScreensDO.Note.screen){
-                DiaryScreen(userId = userId)
+                DiaryScreen(
+                    userId = userId,
+                    navController = navController
+                )
             }
             composable(route = PatientScreensDO.History.screen){
                 HistoryScreen()

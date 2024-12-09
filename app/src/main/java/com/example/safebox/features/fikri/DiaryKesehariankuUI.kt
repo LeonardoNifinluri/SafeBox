@@ -110,9 +110,7 @@ fun AddDiaryCard(
                 }
             }
         }
-
     }
-
 }
 
 @Preview(showBackground = true)
