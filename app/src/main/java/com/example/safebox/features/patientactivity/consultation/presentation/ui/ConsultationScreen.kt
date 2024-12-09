@@ -42,8 +42,7 @@ import com.example.safebox.features.patientactivity.home.presentation.ui.patient
 
 @Composable
 fun ConsultationScreen(
-    navController: NavController,
-    hideBottomNavBar: () -> Unit
+    navController: NavController
 ) {
     val repositoryImpl = FirebaseRepositoryImpl()
     val getPsychologistDataUseCase = GetPsychologistDataUseCase(repositoryImpl)
@@ -88,9 +87,7 @@ fun ConsultationScreen(
                             PsychologistList(
                                 psychologists = psychologists,
                                 navController = navController
-                            ) {
-                                hideBottomNavBar()
-                            }
+                            )
                         }
                     }
 

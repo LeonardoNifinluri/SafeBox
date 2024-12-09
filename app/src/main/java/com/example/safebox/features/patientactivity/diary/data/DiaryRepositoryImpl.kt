@@ -26,7 +26,24 @@ class DiaryRepositoryImpl: DiaryRepository {
         }
     }
 
-    override suspend fun getAllDiary(): Boolean {
-        TODO("Not yet implemented")
+    override suspend fun getAllDiary(userId: String): List<Diary> {
+        try{
+            val snapshot = database.child("diary")
+                .child(userId)
+                .get().await()
+            Log.d("GetDiaryStatus", "Success")
+            if(snapshot.exists()){
+                val diaries = snapshot.children.mapNotNull { dataSnapshot ->
+                    val diary = dataSnapshot.getValue(Diary::class.java)
+                    diary?.copy(id = dataSnapshot.key ?: "")
+                }
+                return diaries
+            }else{
+                return emptyList()
+            }
+        }catch (e: Exception){
+            Log.e("GetDiaryStatus", "Error when fetch all diary: ${e.message}")
+            return emptyList()
+        }
     }
 }

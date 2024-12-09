@@ -529,6 +529,8 @@ fun ModalContent(
 @Composable
 fun ProfileDetailsScreen(){
     var showModel by remember { mutableStateOf(false) }
+
+    //this is psychologist dataclass
     val psikolog = Psikolog(
         availability = listOf(true, false, false, true, false, true, true)
     )
@@ -540,23 +542,25 @@ fun ProfileDetailsScreen(){
         ) {
             item {
                 PhotoAndNameWithBackButton(
-                    name = "Fikri'09",
-                    specialization = "Depresi, Remaja, Anak",
-                    imageRes = R.drawable.gambar_testing3,
-                    onBackClick = { println("Kembali") }
+                    name = "Fikri'09", //psychologist name
+                    specialization = "Depresi, Remaja, Anak", //psychologist specialization
+                    imageRes = R.drawable.gambar_testing3, //psychologist image (using url)
+                    onBackClick = { println("Kembali") } //on back click
                 )
             }
             item {
                 InformationContact(
-                    workLocation = "Makassar",
-                    email = "nurfikrimustapa@gmail.com",
-                    phoneNumber = "089745901043"
+                    workLocation = "Makassar", //psychologist work location
+                    email = "nurfikrimustapa@gmail.com", //psychologsit email
+                    phoneNumber = "089745901043" //psychologist phone number
                 )
             }
             item{
+                //this experience list should receive psychologist.experiences
                 ExperienceList(experiences = dummyExperience)
             }
             item{
+                //this is to choose day (should receive availability)
                 ButtonBookPsikolog(onClick = {
                     showModel = true
                 })

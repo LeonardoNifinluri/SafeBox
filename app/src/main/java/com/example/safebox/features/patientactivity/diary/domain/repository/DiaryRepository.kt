@@ -7,5 +7,5 @@ interface DiaryRepository {
         userId: String,
         diary: Diary
     ): Boolean
-    suspend fun getAllDiary(): Boolean
+    suspend fun getAllDiary(userId: String): List<Diary>
 }
