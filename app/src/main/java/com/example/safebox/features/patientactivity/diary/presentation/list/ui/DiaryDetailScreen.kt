@@ -54,9 +54,8 @@ fun DiaryDetailScreen(
                     Spacer(modifier = Modifier.height(16.dp))
                     Text(text = diary.content)
                     Spacer(modifier = Modifier.height(16.dp))
-                    if(diaryId == diary.id){
-                        Text(text = "Same")
-                    }
+                    Text(text = diaryId)
+                    Spacer(modifier = Modifier.height(16.dp))
                 }
                 is Result.Empty -> {
                     Text(text = "No diary found with id: $diaryId")

@@ -84,6 +84,7 @@ fun PsychologistDetailScreen(
                             BookButton(
                                 onClick = {
                                     viewModel.onChooseDay()
+                                    Log.d("DaySelected", viewModel.selectedDay.value)
                                 }
                             )
                         }
@@ -99,11 +100,14 @@ fun PsychologistDetailScreen(
                                 availability = psychologist.availability,
                                 onDismiss = {
                                     viewModel.onCancelChooseDay()
-                                    Log.d("DismissModal", "Yes")
+                                    Log.d("Hello", viewModel.selectedDay.value)
                                 },
                                 onSelected = { selectedDay ->
+                                    viewModel.onChangeSelectedDay(selectedDay)
+                                    viewModel.onCancelChooseDay()
                                     Log.d("SelectedDay", "Day selected is: $selectedDay")
-                                }
+                                },
+                                selectedDay = viewModel.selectedDay.value
                             )
                         }
                     }

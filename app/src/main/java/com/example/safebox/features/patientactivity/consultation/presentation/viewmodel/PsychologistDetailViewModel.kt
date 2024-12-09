@@ -18,6 +18,9 @@ class PsychologistDetailViewModel: ViewModel() {
     private val _psychologistState = MutableStateFlow<Result<Psychologist>>(Result.Loading)
     val psychologistState: StateFlow<Result<Psychologist>> = _psychologistState
 
+    private val _selectedDay = mutableStateOf(value = "")
+    val selectedDay: State<String> = _selectedDay
+
     private val _showModal = mutableStateOf(value = false)
     val showModal: State<Boolean> = _showModal
 
@@ -26,6 +29,9 @@ class PsychologistDetailViewModel: ViewModel() {
     }
     fun onCancelChooseDay(){
         _showModal.value = false
+    }
+    fun onChangeSelectedDay(newDay: String){
+        _selectedDay.value = newDay
     }
     fun fetchPsychologistById(userId: String){
         viewModelScope.launch {

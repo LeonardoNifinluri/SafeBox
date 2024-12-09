@@ -30,6 +30,7 @@ import androidx.compose.ui.unit.sp
 @Composable
 fun ModalSection(
     availability: List<Boolean>,
+    selectedDay: String,
     onDismiss: () -> Unit,
     onSelected: (String) -> Unit
 ) {
@@ -80,13 +81,15 @@ fun ModalSection(
                                     .fillMaxWidth()
                                     .height(50.dp),
                                 shape = RoundedCornerShape(15.dp),
-                                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFABC3F))
+                                colors = ButtonDefaults.buttonColors(
+                                    containerColor = if(selectedDay == day) Color.White else Color(0xFFFABC3F)
+                                ),
                             ) {
                                 Text(
                                     text = day,
                                     color = Color.Black,
                                     fontWeight = FontWeight.Bold,
-                                    fontSize = 18.sp
+                                    fontSize = 18.sp,
                                 )
                             }
                             Spacer(modifier = Modifier.height(18.dp))

@@ -54,7 +54,7 @@ class DiaryRepositoryImpl: DiaryRepository {
                 .child(diaryId)
                 .get().await()
             if(snapshot.exists()){
-                val diary = snapshot.getValue(Diary::class.java)
+                val diary = snapshot.getValue(Diary::class.java)?.copy(id = diaryId)
                 Log.d("GetDiaryByIdStatus", "Success")
                 return diary
             }else{
