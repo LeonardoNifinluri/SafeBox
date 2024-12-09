@@ -535,7 +535,6 @@ fun ProfileDetailsScreen(){
         availability = listOf(true, false, false, true, false, true, true)
     )
 
-
     Box(modifier = Modifier.fillMaxSize()){
         LazyColumn(
             modifier = Modifier.fillMaxSize()

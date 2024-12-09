@@ -219,7 +219,8 @@ fun PatientActivity(
             ){navBackStackEntry ->
                 val psychologistUserId = navBackStackEntry.arguments?.getString("userId")!!
                 PsychologistDetailScreen(
-                    userId = psychologistUserId
+                    userId = psychologistUserId,
+                    navController = navController
                 )
             }
         }

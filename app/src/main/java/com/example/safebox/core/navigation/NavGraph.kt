@@ -20,8 +20,6 @@ fun NavGraph() {
     NavHost(
         navController = navController,
         startDestination = "SignInScreen"
-//        startDestination = "FillProfileScreen/12/PSYCHOLOGIST/di"
-//        startDestination = "FillProfileScreen/12/PATIENT/di"
     ){
 
         composable(route = "SignInScreen"){

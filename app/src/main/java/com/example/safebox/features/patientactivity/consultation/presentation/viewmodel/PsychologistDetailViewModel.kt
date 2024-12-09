@@ -1,6 +1,8 @@
 package com.example.safebox.features.patientactivity.consultation.presentation.viewmodel
 
 
+import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.safebox.core.result.Result
@@ -16,6 +18,15 @@ class PsychologistDetailViewModel: ViewModel() {
     private val _psychologistState = MutableStateFlow<Result<Psychologist>>(Result.Loading)
     val psychologistState: StateFlow<Result<Psychologist>> = _psychologistState
 
+    private val _showModal = mutableStateOf(value = false)
+    val showModal: State<Boolean> = _showModal
+
+    fun onChooseDay(){
+        _showModal.value = true
+    }
+    fun onCancelChooseDay(){
+        _showModal.value = false
+    }
     fun fetchPsychologistById(userId: String){
         viewModelScope.launch {
             try{
