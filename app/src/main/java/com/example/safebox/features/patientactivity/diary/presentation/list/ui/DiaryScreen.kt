@@ -39,21 +39,30 @@ fun DiaryScreen(
     LaunchedEffect(key1 = Unit) {
         viewModel.fetchAllDiary(userId = userId)
     }
-    val diaryState by viewModel.diaryState.collectAsState()
+    val diaryState by viewModel.diariesState.collectAsState()
     Box(modifier = Modifier
         .fillMaxSize()
         .background(color = Color(0xFFEBEBEB))
     ){
         when(diaryState){
             is Result.Loading -> {
-                Column (
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(16.dp),
-                    verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally
+                LazyColumn (
+                    modifier = Modifier.fillMaxSize()
                 ){
-                    Text(text = "Loading diary data")
+                    item{
+                        Header()
+                    }
+                    item{
+                        AddDiaryCard(
+                            onClick = {
+                                Log.d("AddDiaryStatus", "Clicked")
+                                navController.navigate(route = PatientScreensDO.CreateDiary.screen)
+                            }
+                        )
+                    }
+                    item{
+                        Text(text = "Loading diary data")
+                    }
                 }
             }
             is Result.Success -> {
@@ -64,11 +73,7 @@ fun DiaryScreen(
 
                     //HeaderDiaryKesehariasnku : Header
                     item{
-                        Header(
-                            onBackClick = {
-                                Log.d("BackStatus", "Clicked")
-                            }
-                        )
+                        Header()
                     }
                     item{
                         AddDiaryCard(
@@ -83,6 +88,7 @@ fun DiaryScreen(
                             diary = diary,
                             onClick = {
                                 Log.d("DiaryCardStatus", "Clicked with id ${diary.id}")
+                                navController.navigate(route = "${PatientScreensDO.DetailDiary.screen}/${diary.id}")
                             }
                         )
                     }
@@ -110,14 +116,23 @@ fun DiaryScreen(
                 }
             }
             is Result.Empty -> {
-                Column (
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(16.dp),
-                    verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally
+                LazyColumn (
+                    modifier = Modifier.fillMaxSize()
                 ){
-                    Text(text = "No diary data")
+                    item{
+                        Header()
+                    }
+                    item{
+                        AddDiaryCard(
+                            onClick = {
+                                Log.d("AddDiaryStatus", "Clicked")
+                                navController.navigate(route = PatientScreensDO.CreateDiary.screen)
+                            }
+                        )
+                    }
+                    item{
+                        Text(text = "No diary created")
+                    }
                 }
             }
         }

@@ -8,4 +8,5 @@ interface DiaryRepository {
         diary: Diary
     ): Boolean
     suspend fun getAllDiary(userId: String): List<Diary>
+    suspend fun getDiaryById(userId: String, diaryId: String): Diary?
 }

@@ -29,6 +29,7 @@ import com.example.safebox.features.patientactivity.consultation.presentation.ui
 import com.example.safebox.features.patientactivity.consultation.presentation.ui.PsychologistDetailScreen
 import com.example.safebox.features.patientactivity.dataobject.PatientScreensDO
 import com.example.safebox.features.patientactivity.diary.presentation.form.ui.CreateDiaryScreen
+import com.example.safebox.features.patientactivity.diary.presentation.list.ui.DiaryDetailScreen
 import com.example.safebox.features.patientactivity.diary.presentation.list.ui.DiaryScreen
 import com.example.safebox.features.patientactivity.history.presentation.ui.HistoryScreen
 import com.example.safebox.features.patientactivity.home.presentation.ui.patient.PatientHomeScreen
@@ -213,6 +214,7 @@ fun PatientActivity(
                     userId = userId
                 )
             }
+
             //this is for psychologist detail using psychologist user id
             composable(
                 route = "${PatientScreensDO.Consultation.screen}/detail/{userId}",
@@ -224,6 +226,20 @@ fun PatientActivity(
                 PsychologistDetailScreen(
                     userId = psychologistUserId,
                     navController = navController
+                )
+            }
+
+            //this is for detail diary
+            composable(
+                route = "${PatientScreensDO.DetailDiary.screen}/{diaryId}",
+                arguments = listOf(
+                    navArgument(name = "diaryId"){ type = NavType.StringType }
+                )
+            ){navBackStackEntry ->
+                val diaryId = navBackStackEntry.arguments?.getString("diaryId")!!
+                DiaryDetailScreen(
+                    userId = userId,
+                    diaryId = diaryId
                 )
             }
         }
