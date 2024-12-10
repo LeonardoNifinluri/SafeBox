@@ -14,7 +14,7 @@ class PsychologistRepositoryImpl: PsychologistRepository {
                 .child(userId)
                 .get().await()
             if(snapshot.exists()){
-                val psychologist = snapshot.getValue(Psychologist::class.java)
+                val psychologist = snapshot.getValue(Psychologist::class.java)?.copy(id = userId)
                 Log.d("GetPsyByIdStatus", "Success")
                 return psychologist
             }else{

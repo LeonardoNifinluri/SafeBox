@@ -11,6 +11,7 @@ import com.example.safebox.features.auth.presentation.ui.SignInScreen
 import com.example.safebox.features.auth.presentation.ui.SignUpScreen
 import com.example.safebox.features.fillprofile.presentation.ui.FillProfileScreen
 import com.example.safebox.features.patientactivity.PatientActivity
+import com.example.safebox.features.pyschologistactivity.PsychologistActivity
 
 
 @Composable
@@ -64,7 +65,10 @@ fun NavGraph() {
                     )
                 }
                 Role.PSYCHOLOGIST -> {
-
+                    PsychologistActivity(
+                        authNavController = navController,
+                        userId = userId
+                    )
                 }
                 Role.UNKNOWN -> {
 
