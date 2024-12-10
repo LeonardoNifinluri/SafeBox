@@ -79,7 +79,7 @@ fun HeaderHomepageSection(){
                         text = "Semoga harimu penuh kebahagiaan.\nIngat, kami selalu di sini, menemanimu kapan saja.",
                         fontWeight = FontWeight.Normal,
                         lineHeight = 14.sp,
-                        fontSize = 12.sp,
+                        fontSize = 10.sp,
                         letterSpacing = (0).sp
                     )
                 }
@@ -91,7 +91,6 @@ fun HeaderHomepageSection(){
                     modifier = Modifier
                         .size(74.dp)
                         .clip(CircleShape),
-
                     )
             }
         }
@@ -209,7 +208,7 @@ fun MoodSlider(){
     ) {
         Text(
             text = "Bagaimana Kondisi Mental\nKamu Hari Ini ? ",
-            fontSize = 18.sp,
+            fontSize = 16.sp,
             color = Color.White,
             textAlign = TextAlign.Center,
             lineHeight = 23.sp,
@@ -265,7 +264,7 @@ fun PsychologistCard(name: String, specialization: String, @DrawableRes imageRes
     Card(
         modifier = Modifier
             .width(175.dp)
-            .height(280.dp)
+            .height(270.dp)
             .clickable(onClick = onClick),
         shape = RoundedCornerShape(10.dp),
         colors = CardDefaults.cardColors(
@@ -296,7 +295,7 @@ fun PsychologistCard(name: String, specialization: String, @DrawableRes imageRes
                 Text(
                     text = name,
                     textAlign = TextAlign.Start,
-                    fontSize = 24.sp,
+                    fontSize = 20.sp,
                     color = Color.Black,
                     fontWeight = FontWeight.ExtraBold,
                     maxLines = 1
@@ -305,12 +304,13 @@ fun PsychologistCard(name: String, specialization: String, @DrawableRes imageRes
                 Text(
                     text = "Spesialisasi:\n$specialization",
                     textAlign = TextAlign.Start,
-                    fontSize = 12.sp,
+                    fontSize = 10.sp,
                     lineHeight = 15.sp,
                     color = Color.Black,
                     fontWeight = FontWeight.Normal,
                     maxLines = 2
                 )
+                Spacer(modifier = Modifier.height(2.dp))
             }
         }
 
@@ -385,7 +385,8 @@ fun PsychologistList(psychologists: List<Psychologist>, onCardClick: (String) ->
 fun SeeMoreButton(onClick: () -> Unit) {
     Column (
         modifier = Modifier
-            .fillMaxWidth().padding(horizontal = 16.dp),
+            .fillMaxWidth()
+            .padding(horizontal = 20.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ){
         Button(
@@ -425,7 +426,7 @@ fun PsychologistSectionList(onCardClick: (String) -> Unit, onSeeMoreClick: () ->
         color = backgroundColor
     ) {
         Column(
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier.fillMaxWidth() //changed from fillmaxsize to fillmaxwidth
         ) {
             SectionTitle(title = "Konsul ke Psikolog Yuk!")
             PsychologistList(psychologists = psychologistList, onCardClick = onCardClick)
