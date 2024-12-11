@@ -1,29 +1,31 @@
 package com.example.safebox.features.patientactivity.diary.presentation.list.ui
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import com.example.safebox.core.result.Result
 import com.example.safebox.features.patientactivity.diary.domain.model.Diary
+import com.example.safebox.features.patientactivity.diary.presentation.list.ui.component.Content
+import com.example.safebox.features.patientactivity.diary.presentation.list.ui.component.HeaderDetail
 import com.example.safebox.features.patientactivity.diary.presentation.list.viewmodel.DiaryDetailScreenViewModel
 
 @Composable
 fun DiaryDetailScreen(
     userId: String,
     diaryId: String,
-    viewModel: DiaryDetailScreenViewModel = viewModel()
+    viewModel: DiaryDetailScreenViewModel = viewModel(),
+    navController: NavController
 ) {
     val diaryState by viewModel.diaryState.collectAsState()
 
@@ -34,13 +36,16 @@ fun DiaryDetailScreen(
         )
     }
 
-    Box(
-        modifier = Modifier.fillMaxSize()
+    Surface(
+        modifier = Modifier
+            .fillMaxSize(),
+        color = Color(0xFFEBEBEB)
     ) {
         Column (
-            modifier = Modifier.fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
+            modifier = Modifier.padding(
+                horizontal = 16.dp,
+                vertical = 20.dp
+            )
         ){
             when(diaryState){
                 is Result.Loading -> {
@@ -48,14 +53,31 @@ fun DiaryDetailScreen(
                 }
                 is Result.Success -> {
                     val diary = (diaryState as Result.Success<Diary>).data
-                    Text(text = diary.id)
-                    Spacer(modifier = Modifier.height(16.dp))
-                    Text(text = diary.title)
-                    Spacer(modifier = Modifier.height(16.dp))
-                    Text(text = diary.content)
-                    Spacer(modifier = Modifier.height(16.dp))
-                    Text(text = diaryId)
-                    Spacer(modifier = Modifier.height(16.dp))
+                    LazyColumn {
+                        item {
+                            HeaderDetail(
+                                title = diary.title,
+                                onBack = {
+                                    navController.popBackStack()
+                                },
+                                createdAt = diary.createdAt
+                            )
+                        }
+                        item {
+                            Box(
+                                modifier = Modifier
+                                    .height(16.dp)
+                                    .background(Color(0xFFEBEBEB))
+                                    .fillMaxWidth()
+                            )
+                        }
+                        item {
+                            Content(
+                                content = diary.content
+                            )
+                        }
+                    }
+
                 }
                 is Result.Empty -> {
                     Text(text = "No diary found with id: $diaryId")

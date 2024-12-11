@@ -243,7 +243,8 @@ fun PatientActivity(
                 val diaryId = navBackStackEntry.arguments?.getString("diaryId")!!
                 DiaryDetailScreen(
                     userId = userId,
-                    diaryId = diaryId
+                    diaryId = diaryId,
+                    navController = navController
                 )
             }
         }
