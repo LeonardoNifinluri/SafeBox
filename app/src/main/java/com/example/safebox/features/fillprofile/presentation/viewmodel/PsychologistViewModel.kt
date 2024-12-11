@@ -96,21 +96,6 @@ class PsychologistViewModel(
         _imageUri.value = newImageUri
     }
 
-    fun getDay(idx: Int): MutableState<String> {
-        val result = mutableStateOf(value = "")
-        when(idx){
-            0 -> result.value = "Monday"
-            1 -> result.value = "Tuesday"
-            2 -> result.value = "Wednesday"
-            3 -> result.value = "Thursday"
-            4 -> result.value = "Friday"
-            5 -> result.value = "Saturday"
-            6 -> result.value = "Sunday"
-            else -> result.value = ""
-        }
-        return result
-    }
-
     //this is for specialization
     fun onAddSpecialization(){
         _showSpecializationDialog.value = true
@@ -157,9 +142,13 @@ class PsychologistViewModel(
         _showSpecializationDialog.value = false
     }
 
-    fun onRemoveSpecialization(specialization: Specialization){
-        //this is to remove specialization
-        _psychologistData.value.specializations.remove(specialization)
+    fun onRemoveSpecialization(){
+        //remove last element
+        if(psychologistData.value.specializations.isNotEmpty()){
+            _psychologistData.value.specializations.removeAt(
+                psychologistData.value.specializations.lastIndex
+            )
+        }
     }
 
     fun onFieldChange(newField: String){
@@ -233,9 +222,13 @@ class PsychologistViewModel(
         _showExpDialog.value = false
     }
 
-    fun onRemoveExperience(experience: Experience){
-        //this is to remove experience
-        _psychologistData.value.experiences.remove(experience)
+    fun onRemoveExperience(){
+        //remove last element :
+        if(psychologistData.value.experiences.isNotEmpty()){
+            _psychologistData.value.experiences.removeAt(
+                psychologistData.value.experiences.lastIndex
+            )
+        }
     }
 
     fun onExpDataChange(attribute: String, data: String){

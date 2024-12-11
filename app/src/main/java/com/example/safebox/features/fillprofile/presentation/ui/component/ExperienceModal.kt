@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -81,22 +82,45 @@ fun ExperienceModal(viewModel: PsychologistViewModel) {
                     }
                     item{
                         Spacer(modifier = Modifier.height(32.dp))
-                        Button(
-                            onClick = {
-                                //show experience dialog
-                                viewModel.onAddExperience()
-                            },
-                            modifier = Modifier
-                                .height(40.dp)
-                                .fillMaxWidth(),
-                            shape = RoundedCornerShape(10.dp),
-                            colors = ButtonDefaults.buttonColors(Color.White)
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceEvenly
                         ) {
-                            Text(
-                                text = "Tambah",
-                                fontWeight = FontWeight.Bold,
-                                color = Color.Black
-                            )
+                            Button(
+                                onClick = {
+                                    //show specialization dialog
+                                    viewModel.onRemoveExperience()
+                                },
+                                modifier = Modifier
+                                    .height(40.dp)
+                                    .weight(1f),
+                                shape = RoundedCornerShape(10.dp),
+                                colors = ButtonDefaults.buttonColors(Color.White)
+                            ) {
+                                Text(
+                                    text = "Hapus",
+                                    fontWeight = FontWeight.Bold,
+                                    color = Color.Black
+                                )
+                            }
+                            Spacer(modifier = Modifier.width(8.dp))
+                            Button(
+                                onClick = {
+                                    //show specialization dialog
+                                    viewModel.onAddExperience()
+                                },
+                                modifier = Modifier
+                                    .height(40.dp)
+                                    .weight(1f),
+                                shape = RoundedCornerShape(10.dp),
+                                colors = ButtonDefaults.buttonColors(Color.White)
+                            ) {
+                                Text(
+                                    text = "Tambah",
+                                    fontWeight = FontWeight.Bold,
+                                    color = Color.Black
+                                )
+                            }
                         }
                         Spacer(modifier = Modifier.height(10.dp))
                         Button(
