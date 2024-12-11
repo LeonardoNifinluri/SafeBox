@@ -19,7 +19,7 @@ class CreateDiaryViewModel: ViewModel() {
     private val _diary = mutableStateOf(value = Diary())
     val diary: State<Diary> = _diary
 
-    val saveDiaryUseCase = SaveDiaryUseCase(DiaryRepositoryImpl())
+    private val saveDiaryUseCase = SaveDiaryUseCase(DiaryRepositoryImpl())
 
     fun createDiary(
         userId: String,

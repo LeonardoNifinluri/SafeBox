@@ -95,10 +95,8 @@ fun HeaderRiwayatPesanPsikolog(
                     )
                 }
             }
-
         }
     }
-
 }
 
 @Preview(showBackground = true)
@@ -120,7 +118,6 @@ fun RiwayatKonsultasiCard(
 ) {
     Surface(
         color = Color(0xFFEBEBEB)
-
     ) {
         Column (
             modifier = Modifier

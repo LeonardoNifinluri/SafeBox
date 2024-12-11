@@ -11,6 +11,7 @@ import com.example.safebox.features.auth.presentation.ui.SignInScreen
 import com.example.safebox.features.auth.presentation.ui.SignUpScreen
 import com.example.safebox.features.fillprofile.presentation.ui.FillProfileScreen
 import com.example.safebox.features.patientactivity.PatientActivity
+import com.example.safebox.features.pyschologistactivity.PsychologistActivity
 
 
 @Composable
@@ -19,9 +20,7 @@ fun NavGraph() {
 
     NavHost(
         navController = navController,
-        startDestination = "SignInScreen"
-//        startDestination = "FillProfileScreen/12/PSYCHOLOGIST/di"
-//        startDestination = "FillProfileScreen/12/PATIENT/di"
+        startDestination = "SignInScreen",
     ){
 
         composable(route = "SignInScreen"){
@@ -66,7 +65,10 @@ fun NavGraph() {
                     )
                 }
                 Role.PSYCHOLOGIST -> {
-
+                    PsychologistActivity(
+                        authNavController = navController,
+                        userId = userId
+                    )
                 }
                 Role.UNKNOWN -> {
 

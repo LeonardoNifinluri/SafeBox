@@ -12,8 +12,8 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class DiaryScreenViewModel: ViewModel() {
-    private val _diaryState = MutableStateFlow<Result<List<Diary>>>(Result.Loading)
-    val diaryState: StateFlow<Result<List<Diary>>> = _diaryState
+    private val _diariesState = MutableStateFlow<Result<List<Diary>>>(Result.Loading)
+    val diariesState: StateFlow<Result<List<Diary>>> = _diariesState
 
     fun fetchAllDiary(userId: String){
         viewModelScope.launch {
@@ -21,14 +21,14 @@ class DiaryScreenViewModel: ViewModel() {
                 val getAllDiaryUseCase = GetAllDiaryUseCase(DiaryRepositoryImpl())
                 val diaries = getAllDiaryUseCase(userId = userId)
                 if(diaries.isNotEmpty()){
-                    _diaryState.value = Result.Success(diaries)
+                    _diariesState.value = Result.Success(diaries)
                     Log.d("GetDiaryStatus", "Success")
                 }else{
-                    _diaryState.value = Result.Empty
+                    _diariesState.value = Result.Empty
                     Log.d("GetDiaryStatus", "Diary is empty")
                 }
             }catch (e: Exception){
-                _diaryState.value = Result.Error(exception = e)
+                _diariesState.value = Result.Error(exception = e)
                 Log.e("GetDiaryStatus", "Error when get all diary: ${e.message}")
             }
         }

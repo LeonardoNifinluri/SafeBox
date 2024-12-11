@@ -46,4 +46,24 @@ class DiaryRepositoryImpl: DiaryRepository {
             return emptyList()
         }
     }
+
+    override suspend fun getDiaryById(userId: String, diaryId: String): Diary? {
+        try{
+            val snapshot = database.child("diary")
+                .child(userId)
+                .child(diaryId)
+                .get().await()
+            if(snapshot.exists()){
+                val diary = snapshot.getValue(Diary::class.java)?.copy(id = diaryId)
+                Log.d("GetDiaryByIdStatus", "Success")
+                return diary
+            }else{
+                Log.d("GetDiaryByIdStatus", "Doesn't Exist diary with id: $diaryId")
+                return null
+            }
+        }catch (e: Exception){
+            Log.e("GetDiaryByIdStatus", "Error when get diary with id $diaryId: ${e.message}")
+            return null
+        }
+    }
 }

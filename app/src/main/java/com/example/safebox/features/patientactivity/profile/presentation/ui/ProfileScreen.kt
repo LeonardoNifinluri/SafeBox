@@ -3,7 +3,6 @@ package com.example.safebox.features.patientactivity.profile.presentation.ui
 import androidx.activity.ComponentActivity
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -22,6 +21,7 @@ import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Phone
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -99,7 +99,9 @@ fun ProfileScreen(
                         //this is header
                         Surface(
                             color = Color(0xFFFABC3F),
-                            modifier = Modifier.fillMaxWidth().height(50.dp),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(50.dp),
                             shape = RoundedCornerShape(bottomEnd = 28.dp, bottomStart = 28.dp)
                         ){
                             Column(
@@ -121,7 +123,9 @@ fun ProfileScreen(
                         Spacer(modifier = Modifier.height(30.dp))
 
                         Row(
-                            modifier = Modifier.fillMaxWidth().padding(20.dp)
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(20.dp)
                         ) {
                             val painter = rememberAsyncImagePainter(
                                 ImageRequest.Builder(LocalContext.current)
@@ -132,7 +136,9 @@ fun ProfileScreen(
                             Image(
                                 painter = painter,
                                 contentDescription = null,
-                                modifier = Modifier.size(100.dp).clip(CircleShape)
+                                modifier = Modifier
+                                    .size(100.dp)
+                                    .clip(CircleShape)
                             )
                             Spacer(modifier = Modifier.width(20.dp))
                             Column {
@@ -152,7 +158,9 @@ fun ProfileScreen(
 
                         //this is phone number
                         Row (
-                            modifier = Modifier.fillMaxWidth().padding(20.dp)
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(start = 20.dp, end = 20.dp)
                         ){
                             Icon(
                                 imageVector = Icons.Default.Phone,
@@ -170,7 +178,9 @@ fun ProfileScreen(
 
                         //this is email
                         Row (
-                            modifier = Modifier.fillMaxWidth().padding(20.dp)
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(start = 20.dp, end = 20.dp)
                         ){
                             Icon(
                                 imageVector = Icons.Default.Email,
@@ -188,7 +198,9 @@ fun ProfileScreen(
 
                         //this is birthdate
                         Row (
-                            modifier = Modifier.fillMaxWidth().padding(20.dp)
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(start = 20.dp, end = 20.dp)
                         ){
                             Icon(
                                 imageVector = Icons.Default.DateRange,
@@ -206,7 +218,9 @@ fun ProfileScreen(
 
                         //this is gender
                         Row (
-                            modifier = Modifier.fillMaxWidth().padding(20.dp)
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(start = 20.dp, end = 20.dp)
                         ){
                             Icon(
                                 imageVector = Icons.Default.Person,
@@ -224,7 +238,9 @@ fun ProfileScreen(
 
                         //this is address
                         Row (
-                            modifier = Modifier.fillMaxWidth().padding(20.dp)
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(start = 20.dp, end = 20.dp)
                         ){
                             Icon(
                                 imageVector = Icons.Default.LocationOn,
@@ -240,12 +256,14 @@ fun ProfileScreen(
 
                         Spacer(modifier = Modifier.height(16.dp))
 
-                        Box(
-                            modifier = Modifier.fillMaxSize()
-                        ){
+                        Surface(
+                            modifier = Modifier.fillMaxWidth(),
+                            color = backgroundColor
+                        ) {
                             Column(
-                                modifier = Modifier.fillMaxSize(),
-                                verticalArrangement = Arrangement.Center,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(start = 18.dp, end = 18.dp, bottom = 18.dp),
                                 horizontalAlignment = Alignment.CenterHorizontally
                             ) {
                                 Button(
@@ -257,9 +275,19 @@ fun ProfileScreen(
                                                 }
                                             }
                                         }
-                                    }
+                                    },
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .height(45.dp),
+                                    colors = ButtonDefaults.buttonColors(Color(0xFF821131)),
+                                    shape = RoundedCornerShape(10.dp)
                                 ) {
-                                    Text(text = "SignOut")
+                                    Text(
+                                        text = "Keluar",
+                                        fontSize = 20.sp,
+                                        fontWeight = FontWeight.Bold,
+                                        color = Color.White
+                                    )
                                 }
                             }
                         }

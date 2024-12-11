@@ -17,6 +17,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.NavType
@@ -29,6 +30,7 @@ import com.example.safebox.features.patientactivity.consultation.presentation.ui
 import com.example.safebox.features.patientactivity.consultation.presentation.ui.PsychologistDetailScreen
 import com.example.safebox.features.patientactivity.dataobject.PatientScreensDO
 import com.example.safebox.features.patientactivity.diary.presentation.form.ui.CreateDiaryScreen
+import com.example.safebox.features.patientactivity.diary.presentation.list.ui.DiaryDetailScreen
 import com.example.safebox.features.patientactivity.diary.presentation.list.ui.DiaryScreen
 import com.example.safebox.features.patientactivity.history.presentation.ui.HistoryScreen
 import com.example.safebox.features.patientactivity.home.presentation.ui.patient.PatientHomeScreen
@@ -85,11 +87,14 @@ fun PatientActivity(
                             Icon(
                                 painter = painterResource(id = R.drawable.logo_beranda),
                                 contentDescription = null,
+                                tint = if(selected.intValue == R.drawable.logo_beranda) Color(0xFFFABC3F) else Color.White
                             )
                         }
                         Text(
                             text = "Beranda",
-                            fontSize = 10.sp
+                            fontSize = 10.sp,
+                            color = if(selected.intValue == R.drawable.logo_beranda) Color(0xFFFABC3F) else Color.White,
+                            fontWeight = if(selected.intValue == R.drawable.logo_beranda) FontWeight.Bold else FontWeight.Normal
                         )
                     }
 
@@ -110,11 +115,14 @@ fun PatientActivity(
                             Icon(
                                 painter = painterResource(id = R.drawable.logo_diarykeseharianku),
                                 contentDescription = null,
+                                tint = if(selected.intValue == R.drawable.logo_diarykeseharianku) Color(0xFFFABC3F) else Color.White,
                             )
                         }
                         Text(
                             text = "Catatan",
-                            fontSize = 10.sp
+                            fontSize = 10.sp,
+                            color = if(selected.intValue == R.drawable.logo_diarykeseharianku) Color(0xFFFABC3F) else Color.White,
+                            fontWeight = if(selected.intValue == R.drawable.logo_diarykeseharianku) FontWeight.Bold else FontWeight.Normal
                         )
                     }
 
@@ -135,11 +143,14 @@ fun PatientActivity(
                             Icon(
                                 painter = painterResource(id = R.drawable.logo_konsulpsikolog),
                                 contentDescription = null,
+                                tint = if(selected.intValue == R.drawable.logo_konsulpsikolog) Color(0xFFFABC3F) else Color.White
                             )
                         }
                         Text(
                             text = "Riwayat",
-                            fontSize = 10.sp
+                            fontSize = 10.sp,
+                            color = if(selected.intValue == R.drawable.logo_konsulpsikolog) Color(0xFFFABC3F) else Color.White,
+                            fontWeight = if(selected.intValue == R.drawable.logo_konsulpsikolog) FontWeight.Bold else FontWeight.Normal
                         )
                     }
 
@@ -161,11 +172,14 @@ fun PatientActivity(
                             Icon(
                                 painter = painterResource(id = R.drawable.logo_profil),
                                 contentDescription = null,
+                                tint = if(selected.intValue == R.drawable.logo_profil) Color(0xFFFABC3F) else Color.White
                             )
                         }
                         Text(
                             text = "Profil",
-                            fontSize = 10.sp
+                            fontSize = 10.sp,
+                            color = if(selected.intValue == R.drawable.logo_profil) Color(0xFFFABC3F) else Color.White,
+                            fontWeight = if(selected.intValue == R.drawable.logo_profil) FontWeight.Bold else FontWeight.Normal
                         )
                     }
 
@@ -188,10 +202,15 @@ fun PatientActivity(
                 )
             }
             composable(route = PatientScreensDO.Note.screen){
-                DiaryScreen(userId = userId)
+                DiaryScreen(
+                    userId = userId,
+                    navController = navController
+                )
             }
             composable(route = PatientScreensDO.History.screen){
-                HistoryScreen()
+                HistoryScreen(
+                    userId = userId,
+                )
             }
             composable(
                 route = PatientScreensDO.Profile.screen
@@ -210,6 +229,7 @@ fun PatientActivity(
                     userId = userId
                 )
             }
+
             //this is for psychologist detail using psychologist user id
             composable(
                 route = "${PatientScreensDO.Consultation.screen}/detail/{userId}",
@@ -219,7 +239,24 @@ fun PatientActivity(
             ){navBackStackEntry ->
                 val psychologistUserId = navBackStackEntry.arguments?.getString("userId")!!
                 PsychologistDetailScreen(
-                    userId = psychologistUserId
+                    userId = userId,
+                    psychologistId = psychologistUserId,
+                    navController = navController
+                )
+            }
+
+            //this is for detail diary
+            composable(
+                route = "${PatientScreensDO.DetailDiary.screen}/{diaryId}",
+                arguments = listOf(
+                    navArgument(name = "diaryId"){ type = NavType.StringType }
+                )
+            ){navBackStackEntry ->
+                val diaryId = navBackStackEntry.arguments?.getString("diaryId")!!
+                DiaryDetailScreen(
+                    userId = userId,
+                    diaryId = diaryId,
+                    navController = navController
                 )
             }
         }

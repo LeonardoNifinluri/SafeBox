@@ -54,6 +54,7 @@ fun PsychologistCard(
         modifier = Modifier
             .width(175.dp)
             .height(280.dp)
+            .padding(4.dp)
             .clickable{
                 Log.d("CardClick", "Yes$psychologistId")
                 navController.navigate(route = "${ PatientScreensDO.Consultation.screen}/detail/$psychologistId")

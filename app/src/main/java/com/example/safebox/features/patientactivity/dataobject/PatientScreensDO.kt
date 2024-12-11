@@ -7,4 +7,5 @@ sealed class PatientScreensDO(val screen: String) {
     data object Profile: PatientScreensDO(screen = "profile")
     data object Consultation: PatientScreensDO(screen = "consultation")
     data object CreateDiary: PatientScreensDO(screen = "createDiary")
+    data object DetailDiary: PatientScreensDO(screen = "detailDiary")
 }

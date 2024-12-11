@@ -2,7 +2,6 @@ package com.example.safebox.features.fillprofile.presentation.viewmodel
 
 import android.net.Uri
 import android.util.Log
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -47,6 +46,14 @@ class PsychologistViewModel(
     private val _isLoading = mutableStateOf(value = false)
     val isLoading: State<Boolean> = _isLoading
 
+    private val _showAvailabilityModal = mutableStateOf(value = false)
+    val showAvailabilityModal: State<Boolean> = _showAvailabilityModal
+
+    private val _showSpecializationModal = mutableStateOf(value = false)
+    val showSpecializationModal: State<Boolean> = _showSpecializationModal
+
+    private val _showExperienceModal = mutableStateOf(value = false)
+    val showExperienceModal: State<Boolean> = _showExperienceModal
 
     //this is to handle name when changing
     fun onNameChange(newName: String){
@@ -61,6 +68,20 @@ class PsychologistViewModel(
         _psychologistData.value = _psychologistData.value.copy(phoneNumber = newPhoneNumber)
     }
 
+    fun showModal(field: Int){
+        when(field){
+            0 -> _showAvailabilityModal.value = true
+            1 -> _showSpecializationModal.value = true
+            2 -> _showExperienceModal.value = true
+        }
+    }
+    fun dismissModal(field: Int){
+        when(field){
+            0 -> _showAvailabilityModal.value = false
+            1 -> _showSpecializationModal.value = false
+            2 -> _showExperienceModal.value = false
+        }
+    }
     fun onAvailabilityChange(idx: Int){
         // to update the list, need to create a new list since i'm using mutableStateOf
         val newAvailabilityList = _psychologistData.value.availability.mapIndexed{
@@ -74,26 +95,10 @@ class PsychologistViewModel(
         _imageUri.value = newImageUri
     }
 
-    fun getDay(idx: Int): MutableState<String> {
-        val result = mutableStateOf(value = "")
-        when(idx){
-            0 -> result.value = "Monday"
-            1 -> result.value = "Tuesday"
-            2 -> result.value = "Wednesday"
-            3 -> result.value = "Thursday"
-            4 -> result.value = "Friday"
-            5 -> result.value = "Saturday"
-            6 -> result.value = "Sunday"
-            else -> result.value = ""
-        }
-        return result
-    }
-
     //this is for specialization
     fun onAddSpecialization(){
         _showSpecializationDialog.value = true
-        val currentSpecialization = _psychologistData.value.specializations
-        currentSpecialization.add(Specialization())
+        _psychologistData.value.specializations.add(Specialization())
         //I don't have to do this since i'm working with SnapshotStateList
         //_psychologistData.value = _psychologistData.value.copy(specializations = currentSpecialization)
     }
@@ -101,9 +106,9 @@ class PsychologistViewModel(
     fun onCancelSpecialization(){
         //this is to cancel add specialization
         //this is will remove the last element
-        val specializations = _psychologistData.value.specializations
+        val specializations = psychologistData.value.specializations
         if(specializations.isNotEmpty()){
-            specializations.removeAt(specializations.lastIndex)
+            _psychologistData.value.specializations.removeAt(specializations.lastIndex)
         }else{
             Log.d("Specializations", "SpecializationList is empty")
         }
@@ -120,15 +125,15 @@ class PsychologistViewModel(
         Log.d(
             "OnSaveSpecialization",
             "Last Specialization data : " +
-                    "${_psychologistData
+                    "${psychologistData
                         .value
                         .specializations[
-                        _psychologistData
+                        psychologistData
                             .value
                             .specializations
                             .lastIndex
                         ]
-                    }"
+                    } and size: ${psychologistData.value.specializations.size}"
         )
         //this is will create a data class of specialization and will be appended to specialization list
 
@@ -136,48 +141,44 @@ class PsychologistViewModel(
         _showSpecializationDialog.value = false
     }
 
-    fun onRemoveSpecialization(specialization: Specialization){
-        //this is to remove specialization
-        _psychologistData.value.specializations.remove(specialization)
+    fun onRemoveSpecialization(){
+        //remove last element
+        if(psychologistData.value.specializations.isNotEmpty()){
+            _psychologistData.value.specializations.removeAt(
+                psychologistData.value.specializations.lastIndex
+            )
+        }
     }
 
     fun onFieldChange(newField: String){
-        val currentSpecializations = _psychologistData.value.specializations
-        if(currentSpecializations.isNotEmpty()){
+        if(psychologistData.value.specializations.isNotEmpty()){
             //get the last specialization in specializations
-            val lastIndex = _psychologistData.value.specializations.lastIndex
-            var lastSpecialization = _psychologistData.value.specializations[lastIndex]
+            val lastIndex = psychologistData.value.specializations.lastIndex
+            var lastSpecialization = psychologistData.value.specializations[lastIndex]
 
             //replace the value of the previous lastSpec with new lastSpec
             lastSpecialization = lastSpecialization.copy(field = newField)
 
             //update the last specialization
-            currentSpecializations[lastIndex] = lastSpecialization
-
-            //copy the previous specializations with new specializations (update the field)
-            //_psychologistData.value = _psychologistData.value.copy(specializations = currentSpecializations)
+            _psychologistData.value.specializations[lastIndex] = lastSpecialization
         }else{
             Log.d("Specialization-ChangeField", "Specialization is empty")
         }
     }
 
     fun onDescriptionChange(newDesc: String){
-        val currentSpecializations = _psychologistData.value.specializations
-        if(currentSpecializations.isNotEmpty()){
+        if(psychologistData.value.specializations.isNotEmpty()){
             //get the last specialization in specializations
-            val lastIndex = _psychologistData.value.specializations.lastIndex
-            var lastSpecialization = _psychologistData.value.specializations[lastIndex]
+            val lastIndex = psychologistData.value.specializations.lastIndex
+            var lastSpecialization = psychologistData.value.specializations[lastIndex]
 
             //replace the value of the previous lastSpec with new lastSpec
             lastSpecialization = lastSpecialization.copy(description = newDesc)
 
             //update the last specialization
-            currentSpecializations[lastIndex] = lastSpecialization
-
-            //copy the previous specializations with new specializations (update the field)
-            //_psychologistData.value = _psychologistData.value.copy(specializations = currentSpecializations)
+            _psychologistData.value.specializations[lastIndex] = lastSpecialization
         }else{
-            Log.d("Specialization-ChangeDescription", "Specialization is empty")
+            Log.d("Specialization-ChangeField", "Specialization is empty")
         }
     }
 
@@ -220,9 +221,13 @@ class PsychologistViewModel(
         _showExpDialog.value = false
     }
 
-    fun onRemoveExperience(experience: Experience){
-        //this is to remove experience
-        _psychologistData.value.experiences.remove(experience)
+    fun onRemoveExperience(){
+        //remove last element :
+        if(psychologistData.value.experiences.isNotEmpty()){
+            _psychologistData.value.experiences.removeAt(
+                psychologistData.value.experiences.lastIndex
+            )
+        }
     }
 
     fun onExpDataChange(attribute: String, data: String){
