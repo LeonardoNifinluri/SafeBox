@@ -127,9 +127,6 @@ fun PsychologistList(
                             navController = navController,
                             psychologistId = psychologist.id
                         )
-//                        {
-//                            hideBottomNavBar()
-//                        }
                     }
                 }
                 if (chunk.size == 1) {

@@ -12,9 +12,6 @@
       <SelectionState runConfigName="PreviewHomepageScreen">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="TestSlider">
-        <option name="selectionMode" value="DROPDOWN" />
-      </SelectionState>
       <SelectionState runConfigName="PreviewBottomNavBar">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
@@ -22,6 +19,9 @@
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
       <SelectionState runConfigName="PreviewHeaderHomepageSection">
+        <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
+      <SelectionState runConfigName="PreviewFormDiaryKesehatanScreen">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
     </selectionStates>

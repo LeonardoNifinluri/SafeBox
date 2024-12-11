@@ -30,9 +30,9 @@ import androidx.compose.ui.unit.sp
 @Composable
 fun ModalSection(
     availability: List<Boolean>,
-    selectedDay: String,
+    selectedDay: Int,
     onDismiss: () -> Unit,
-    onSelected: (String) -> Unit
+    onSelected: (Int) -> Unit
 ) {
     val daysOfWeek = listOf("Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu")
     Box(
@@ -75,14 +75,14 @@ fun ModalSection(
                     daysOfWeek.forEachIndexed { index, day ->
                         if(availability[index]){
                             Button(
-                                onClick = { onSelected(day) },
+                                onClick = { onSelected(index) },
                                 modifier = Modifier
                                     .padding(horizontal = 4.dp)
                                     .fillMaxWidth()
                                     .height(50.dp),
                                 shape = RoundedCornerShape(15.dp),
                                 colors = ButtonDefaults.buttonColors(
-                                    containerColor = if(selectedDay == day) Color.White else Color(0xFFFABC3F)
+                                    containerColor = if(selectedDay == index) Color.White else Color(0xFFFABC3F)
                                 ),
                             ) {
                                 Text(
