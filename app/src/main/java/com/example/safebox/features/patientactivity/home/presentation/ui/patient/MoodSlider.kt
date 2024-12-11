@@ -17,11 +17,14 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -45,8 +48,8 @@ fun MoodSlider() {
         verticalArrangement = Arrangement.Center
     ) {
         Text(
-            text = "Bagaimana Kondisi Mental\nKamu Hari Ini? ",
-            fontSize = 18.sp,
+            text = "Bagaimana Kondisi Mental\nKamu Hari Ini ? ",
+            fontSize = 16.sp,
             color = Color.White,
             textAlign = TextAlign.Center,
             lineHeight = 23.sp,
@@ -56,15 +59,17 @@ fun MoodSlider() {
 
         Spacer(modifier = Modifier.height(10.dp))
 
-        Box (
+        Box(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 24.dp),
             contentAlignment = Alignment.CenterStart
         ) {
+            var sliderWidthPx by remember { mutableStateOf(0f) } // Store slider width in pixels
+
             Slider(
                 value = moodValue,
-                onValueChange = {moodValue = it},
+                onValueChange = { moodValue = it },
                 valueRange = 0f..100f,
                 colors = SliderDefaults.colors(
                     thumbColor = Color.Transparent,
@@ -73,17 +78,20 @@ fun MoodSlider() {
                 ),
                 modifier = Modifier
                     .fillMaxWidth()
+                    .onGloballyPositioned { coordinates ->
+                        sliderWidthPx = coordinates.size.width.toFloat()
+                    }
             )
             Icon(
                 painter = painterResource(R.drawable.logo_smile_slider_pilihan2),
                 contentDescription = "Emoji Senyum",
                 modifier = Modifier
                     .size(40.dp)
-                    .offset(x = (moodValue * 3.25).dp),
+                    .offset(x = with(LocalDensity.current) { (moodValue / 100f * sliderWidthPx).toDp() - 20.dp }),
                 tint = Color.White
             )
-
         }
+
         Spacer(modifier = Modifier.height(25.dp))
     }
 }
