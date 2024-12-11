@@ -39,6 +39,7 @@ class HistoryRepositoryImpl: HistoryRepository {
                     history?.copy(id = dataSnapshot.key ?: "")
                 }
                 Log.d("GetHistoriesStatus", "Success and Not Empty")
+                Log.d("Histories", histories.toString())
                 return histories
             }else{
                 Log.d("GetHistoriesStatus", "Success but empty")

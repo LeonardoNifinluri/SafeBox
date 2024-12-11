@@ -1,9 +1,9 @@
 package com.example.safebox.features.patientactivity.history.domain.model
 
 data class History(
-    val psychologistId: String,
-    val psychologistName: String,
-    val day: Int,
-    val createdAt: String,
+    var psychologistId: String = "",
+    var psychologistName: String = "",
+    var day: Int = -1,
+    var createdAt: String = "",
     var id: String = ""
 )
