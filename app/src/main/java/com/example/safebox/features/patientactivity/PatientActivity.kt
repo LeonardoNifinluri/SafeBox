@@ -17,6 +17,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.NavType
@@ -86,11 +87,14 @@ fun PatientActivity(
                             Icon(
                                 painter = painterResource(id = R.drawable.logo_beranda),
                                 contentDescription = null,
+                                tint = if(selected.intValue == R.drawable.logo_beranda) Color(0xFFFABC3F) else Color.White
                             )
                         }
                         Text(
                             text = "Beranda",
-                            fontSize = 10.sp
+                            fontSize = 10.sp,
+                            color = if(selected.intValue == R.drawable.logo_beranda) Color(0xFFFABC3F) else Color.White,
+                            fontWeight = if(selected.intValue == R.drawable.logo_beranda) FontWeight.Bold else FontWeight.Normal
                         )
                     }
 
@@ -111,11 +115,14 @@ fun PatientActivity(
                             Icon(
                                 painter = painterResource(id = R.drawable.logo_diarykeseharianku),
                                 contentDescription = null,
+                                tint = if(selected.intValue == R.drawable.logo_diarykeseharianku) Color(0xFFFABC3F) else Color.White,
                             )
                         }
                         Text(
                             text = "Catatan",
-                            fontSize = 10.sp
+                            fontSize = 10.sp,
+                            color = if(selected.intValue == R.drawable.logo_diarykeseharianku) Color(0xFFFABC3F) else Color.White,
+                            fontWeight = if(selected.intValue == R.drawable.logo_diarykeseharianku) FontWeight.Bold else FontWeight.Normal
                         )
                     }
 
@@ -136,11 +143,14 @@ fun PatientActivity(
                             Icon(
                                 painter = painterResource(id = R.drawable.logo_konsulpsikolog),
                                 contentDescription = null,
+                                tint = if(selected.intValue == R.drawable.logo_konsulpsikolog) Color(0xFFFABC3F) else Color.White
                             )
                         }
                         Text(
                             text = "Riwayat",
-                            fontSize = 10.sp
+                            fontSize = 10.sp,
+                            color = if(selected.intValue == R.drawable.logo_konsulpsikolog) Color(0xFFFABC3F) else Color.White,
+                            fontWeight = if(selected.intValue == R.drawable.logo_konsulpsikolog) FontWeight.Bold else FontWeight.Normal
                         )
                     }
 
@@ -162,11 +172,14 @@ fun PatientActivity(
                             Icon(
                                 painter = painterResource(id = R.drawable.logo_profil),
                                 contentDescription = null,
+                                tint = if(selected.intValue == R.drawable.logo_profil) Color(0xFFFABC3F) else Color.White
                             )
                         }
                         Text(
                             text = "Profil",
-                            fontSize = 10.sp
+                            fontSize = 10.sp,
+                            color = if(selected.intValue == R.drawable.logo_profil) Color(0xFFFABC3F) else Color.White,
+                            fontWeight = if(selected.intValue == R.drawable.logo_profil) FontWeight.Bold else FontWeight.Normal
                         )
                     }
 
@@ -197,7 +210,6 @@ fun PatientActivity(
             composable(route = PatientScreensDO.History.screen){
                 HistoryScreen(
                     userId = userId,
-                    navController = navController
                 )
             }
             composable(

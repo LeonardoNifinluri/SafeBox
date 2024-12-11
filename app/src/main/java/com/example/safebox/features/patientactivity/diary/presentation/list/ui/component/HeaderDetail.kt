@@ -43,7 +43,7 @@ fun HeaderDetail(
                     painter = painterResource(id = R.drawable.logo_back_3),
                     contentDescription = "Kembali",
                     modifier = Modifier.size(18.dp),
-                    tint = Color.Black
+                    tint = Color.White
                 )
             }
             Column (
